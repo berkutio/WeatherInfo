@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Weather Info</string>
     <string name="action_settings">Settings</string>
+    <string name="temperature">t°C</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity,%</string>
+    <string name="wind_speed">Wind speed, m/s</string>
+    <string name="today">Weather today</string>
+    <string name="nearest_days">Nearest days</string>
 </resources>
