@@ -7,4 +7,5 @@
     <string name="wind_speed">Wind speed, m/s</string>
     <string name="today">Weather today</string>
     <string name="nearest_days">Nearest days</string>
+    <string name="downloading_info">Downloading information</string>
 </resources>

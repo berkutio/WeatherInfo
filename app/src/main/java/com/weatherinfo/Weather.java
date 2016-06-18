@@ -6,8 +6,14 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -19,12 +25,14 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.weatherinfo.adapters.Adapter;
 import com.weatherinfo.entityes.ForecastData;
 import com.weatherinfo.sup.GetResponseClass;
 import com.weatherinfo.sup.JsonParsers;
 import com.weatherinfo.sup.Universal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Weather extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -32,10 +40,23 @@ public class Weather extends AppCompatActivity implements
         LocationListener,
         ResultCallback<LocationSettingsResult>, Constants {
 
+    private LinearLayout progressBarLayout;
+    private LinearLayout dataLayout;
+
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private LocationSettingsRequest mLocationSettingsRequest;
+    private RecyclerView mRecyclerView;
 
+    private TextView locality;
+    private TextView data;
+    private TextView general;
+    private TextView temperature;
+    private TextView pressure;
+    private TextView humidity;
+    private TextView windSpeed;
+
+    private Adapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +64,11 @@ public class Weather extends AppCompatActivity implements
         setContentView(R.layout.activity_weather);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        progressBarLayout = (LinearLayout) findViewById(R.id.progressBarLayout);
+        dataLayout = (LinearLayout) findViewById(R.id.dataLayout);
         locationInit();
+        textesInit();
+        setmRecyclerInit();
     }
 
     @Override
@@ -157,10 +180,48 @@ public class Weather extends AppCompatActivity implements
         });
     }
 
-    static class WeatherDataTask extends AsyncTask<String, Void, String>{
+    private void textesInit(){
+        locality = (TextView) findViewById(R.id.locality);
+        data = (TextView) findViewById(R.id.data);
+        general = (TextView) findViewById(R.id.general_description);
+        temperature = (TextView) findViewById(R.id.temperature_val);
+        pressure = (TextView) findViewById(R.id.pressure_val);
+        humidity = (TextView) findViewById(R.id.humidity_val);
+        windSpeed = (TextView) findViewById(R.id.wind_speed_val);
+    }
+
+    private void setmRecyclerInit(){
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        // use a linear layout manager
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
+    private void settingList(List<ForecastData> list){
+        mAdapter = new Adapter(list);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void setDataForToday(ForecastData forecastData){
+        locality.setText(forecastData.getLocality());
+        data.setText(forecastData.getData());
+        general.setText(forecastData.getGeneralDescription());
+        temperature.setText(String.valueOf(forecastData.getTemperature()));
+        pressure.setText(String.valueOf(forecastData.getPressure()));
+        humidity.setText(String.valueOf(forecastData.getHumidity()));
+        windSpeed.setText(String.valueOf(forecastData.getWindSpeed()));
+    }
+
+    private void switchViews(){
+        progressBarLayout.setVisibility(View.GONE);
+        dataLayout.setVisibility(View.VISIBLE);
+    }
+
+    class WeatherDataTask extends AsyncTask<String, Void, List<ForecastData>>{
 
         @Override
-        protected String doInBackground(String... params) {
+        protected List<ForecastData> doInBackground(String... params) {
             String res2 = GetResponseClass.getResult(params[0]);
             Log.d("myLogs", "doInBackground res " + res2);
             ArrayList<ForecastData> d = JsonParsers.getFiveDayForecastList(res2);
@@ -177,12 +238,15 @@ public class Weather extends AppCompatActivity implements
                 Log.d("myLogs", "         a.getHumidity() " + a.getHumidity());
                 Log.d("myLogs", "        a.getWindSpeed() " + a.getWindSpeed());
             }
-            return res2;
+            return d;
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(List<ForecastData> result) {
+            ForecastData data = result.remove(0);
+            setDataForToday(data);
+            settingList(result);
+            switchViews();
         }
     }
 }
