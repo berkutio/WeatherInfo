@@ -7,8 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 
-/**
- */
 public class GetResponseClass {
 
     public static String getResult(String urlPath) {

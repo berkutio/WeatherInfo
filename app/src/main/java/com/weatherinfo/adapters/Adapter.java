@@ -9,9 +9,6 @@ import com.weatherinfo.R;
 import com.weatherinfo.entityes.ForecastData;
 import java.util.List;
 
-/**
- * Created by berkut on 19.06.16.
- */
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private List<ForecastData> list;

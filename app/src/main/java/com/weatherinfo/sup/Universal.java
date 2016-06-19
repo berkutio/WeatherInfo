@@ -2,12 +2,8 @@ package com.weatherinfo.sup;
 
 import android.location.Location;
 import android.net.Uri;
-
 import com.weatherinfo.Constants;
 
-/**
- * Created by berkut on 17.06.16.
- */
 public class Universal implements Constants {
 
 

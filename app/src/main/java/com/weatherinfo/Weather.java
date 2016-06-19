@@ -3,13 +3,11 @@ package com.weatherinfo;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,12 +24,9 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.weatherinfo.adapters.Adapter;
+import com.weatherinfo.asynctasks.WeatherDataTask;
 import com.weatherinfo.entityes.ForecastData;
-import com.weatherinfo.sup.GetResponseClass;
-import com.weatherinfo.sup.JsonParsers;
 import com.weatherinfo.sup.Universal;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Weather extends AppCompatActivity implements
@@ -98,18 +93,25 @@ public class Weather extends AppCompatActivity implements
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        Log.d("myLogs", "onLocationChanged lat" + location.getLatitude());
-        Log.d("myLogs", "onLocationChanged log" + location.getLongitude());
-        mGoogleApiClient.disconnect();
-        String url2 = Universal.getMoreDaysRequest(WEATHER_URI_FIVE_DAYS, location, 6);
-        Log.d("myLogs", "onLocationChanged url2 " + url2);
-        new WeatherDataTask().execute(url2);
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
+    public void onLocationChanged(Location location) {
+        mGoogleApiClient.disconnect();
+        String url2 = Universal.getMoreDaysRequest(WEATHER_URI_FIVE_DAYS, location, 6);
+        WeatherDataTask task = new WeatherDataTask();
+        task.setOnCompleteListener(new WeatherDataTask.OnCompleteListener() {
+            @Override
+            public void onComplete(List<ForecastData> result) {
+                ForecastData data = result.remove(0);
+                setDataForToday(data);
+                settingList(result);
+                switchViews();
+            }
+        });
+        task.execute(url2);
     }
 
     @Override
@@ -182,12 +184,12 @@ public class Weather extends AppCompatActivity implements
 
     private void textesInit(){
         locality = (TextView) findViewById(R.id.locality);
-        data = (TextView) findViewById(R.id.data);
-        general = (TextView) findViewById(R.id.general_description);
-        temperature = (TextView) findViewById(R.id.temperature_val);
-        pressure = (TextView) findViewById(R.id.pressure_val);
-        humidity = (TextView) findViewById(R.id.humidity_val);
-        windSpeed = (TextView) findViewById(R.id.wind_speed_val);
+        data = (TextView) findViewById(R.id.data_today);
+        general = (TextView) findViewById(R.id.general_description_today);
+        temperature = (TextView) findViewById(R.id.temperature_val_today);
+        pressure = (TextView) findViewById(R.id.pressure_val_today);
+        humidity = (TextView) findViewById(R.id.humidity_val_today);
+        windSpeed = (TextView) findViewById(R.id.wind_speed_val_today);
     }
 
     private void setmRecyclerInit(){
@@ -216,37 +218,5 @@ public class Weather extends AppCompatActivity implements
     private void switchViews(){
         progressBarLayout.setVisibility(View.GONE);
         dataLayout.setVisibility(View.VISIBLE);
-    }
-
-    class WeatherDataTask extends AsyncTask<String, Void, List<ForecastData>>{
-
-        @Override
-        protected List<ForecastData> doInBackground(String... params) {
-            String res2 = GetResponseClass.getResult(params[0]);
-            Log.d("myLogs", "doInBackground res " + res2);
-            ArrayList<ForecastData> d = JsonParsers.getFiveDayForecastList(res2);
-            Log.d("myLogs", "d.size() " + d.size());
-            for(int i = 0; i < d.size(); i++){
-                ForecastData a = d.get(i);
-                Log.d("myLogs", "______________________");
-                Log.d("myLogs", "             a.getData() " + a.getData());
-                Log.d("myLogs", "         a.getLocality() " + a.getLocality());
-                Log.d("myLogs", "   a.getGeneralWeather() " + a.getGeneralWeather());
-                Log.d("myLogs", "a.getGeneralDescription()" + a.getGeneralDescription());
-                Log.d("myLogs", "      a.getTemperature() " + a.getTemperature());
-                Log.d("myLogs", "         a.getPressure() " + a.getPressure());
-                Log.d("myLogs", "         a.getHumidity() " + a.getHumidity());
-                Log.d("myLogs", "        a.getWindSpeed() " + a.getWindSpeed());
-            }
-            return d;
-        }
-
-        @Override
-        protected void onPostExecute(List<ForecastData> result) {
-            ForecastData data = result.remove(0);
-            setDataForToday(data);
-            settingList(result);
-            switchViews();
-        }
     }
 }

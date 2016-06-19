@@ -3,9 +3,6 @@ package com.weatherinfo.entityes;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-/**
- * Created by berkut on 18.06.16.
- */
 public class ForecastData {
 
     private String data;
