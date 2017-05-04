@@ -4,12 +4,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.weatherinfo.R;
-import com.weatherinfo.entityes.ForecastData;
+import com.weatherinfo.model.ForecastData;
+import com.weatherinfo.utils.Universal;
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+import butterknife.BindView;
+
+public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
 
     private List<ForecastData> list;
 
@@ -21,9 +25,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         public TextView pressure;
         public TextView humidity;
         public TextView windSpeed;
+        public ImageView imageView;
 
         public ViewHolder(View v) {
             super(v);
+            imageView = (ImageView)v.findViewById(R.id.im_description);
             data = (TextView)v.findViewById(R.id.data);
             general = (TextView)v.findViewById(R.id.general_description);
             temperature = (TextView)v.findViewById(R.id.temperature_val);
@@ -33,13 +39,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         }
     }
 
-    public Adapter(List<ForecastData> list) {
+    public WeatherAdapter(List<ForecastData> list) {
         this.list = list;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public WeatherAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.weather_mapping_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
@@ -50,12 +56,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ForecastData forecastData = list.get(position);
-        holder.data.setText(forecastData.getData());
-        holder.general.setText(forecastData.getGeneralDescription());
-        holder.temperature.setText(String.valueOf(forecastData.getTemperature()));
+        holder.imageView.setImageResource(Universal.getWeatherResource(forecastData.getWeather()[0].getDescription()));
+        holder.data.setText(Universal.formatData(forecastData.getDt()));
+        holder.general.setText(forecastData.getWeather()[0].getDescription());
+        holder.temperature.setText(Universal.convertToCelicies(forecastData.getTemp().getMin()));
         holder.pressure.setText(String.valueOf(forecastData.getPressure()));
         holder.humidity.setText(String.valueOf(forecastData.getHumidity()));
-        holder.windSpeed.setText(String.valueOf(forecastData.getWindSpeed()));
+        holder.windSpeed.setText(String.valueOf(forecastData.getSpeed()));
     }
 
 

@@ -4,8 +4,13 @@
     <string name="temperature">t°C</string>
     <string name="pressure">Pressure, mm.mr.col</string>
     <string name="humidity">Humidity,%</string>
-    <string name="wind_speed">Wind speed, m/s</string>
+    <string name="wind_speed">Wind, m/s</string>
     <string name="today">Weather today</string>
     <string name="nearest_days">Nearest days</string>
     <string name="downloading_info">Downloading information</string>
+    <string name="error_weather_response">Error obtaining forecast data. Check internet connection and try gain!</string>
+    <string name="requires_phone_permission">In order to obtain weather forecast application ask permissions</string>
+    <string name="settings">Settings</string>
+    <string name="exit">Exit</string>
+    <string name="weather_response_obtaining">Obtaining forecast. Please, wait!</string>
 </resources>

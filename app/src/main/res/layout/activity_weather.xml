@@ -1,265 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:fitsSystemWindows="true"
-    tools:context=".Weather"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".activities.weatheractivity.WeatherActivity">
 
-    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
-        android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
-            android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/dataLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <LinearLayout
-            android:id="@+id/progressBarLayout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <ProgressBar
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="224dp"
-                android:layout_height="150dp"
-                android:id="@+id/progressBar"
-                android:layout_gravity="center"
-                android:layout_weight="0.44" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="13dp">
 
             <TextView
-                android:id="@+id/textUnderProgress"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/today"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/downloading_info" />
+                android:textStyle="bold" />
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="10dp" />
+
+            <ImageView
+                android:id="@+id/im_description_icon"
+                android:layout_marginRight="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                tools:src="@drawable/ic_snow"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/dataLayout"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/Black" />
+
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/today"
-                    android:textStyle="bold"/>
-
-                <View
-                    android:layout_width="10dp"
-                    android:layout_height="10dp" />
-
-                <TextView
-                    android:maxLength="25"
-                    android:lines="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="City"
-                    android:id="@+id/locality" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="2.5dp"
+                android:orientation="vertical">
 
-                <View
-                    android:layout_height="0.5dp"
-                    android:layout_width="fill_parent"
-                    android:background="@color/Black" />
+                <TextView
+                    android:id="@+id/data_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:drawableLeft="@drawable/ic_calendar"
+                    android:lines="1"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLength="25"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="02/15/2016" />
+
+                <TextView
+                    android:id="@+id/general_description_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:lines="1"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLength="25"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="general_description_today" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_marginLeft="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2dp"
+                        android:lines="1"
+                        android:maxLength="20"
+                        android:text="@string/temperature"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+
+                    <TextView
+                        android:id="@+id/temperature_val_today"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginRight="16dp"
-                        android:layout_width="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        tools:text="+23" />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:drawableLeft="@drawable/ic_pressure"
+                        android:lines="1"
+                        android:maxLength="20"
+                        android:text="@string/pressure"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+
+                    <TextView
+                        android:id="@+id/pressure_val_today"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="2.5dp"
-                        android:layout_marginBottom="2.5dp"
-                        android:layout_gravity="center">
-
-                        <TextView
-                            android:marqueeRepeatLimit="marquee_forever"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="02/15/2016"
-                            android:lines="1"
-                            android:maxLength="25"
-                            android:id="@+id/data_today" />
-
-                        <TextView
-                            android:marqueeRepeatLimit="marquee_forever"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="general_description_today"
-                            android:maxLength="25"
-                            android:lines="1"
-                            android:id="@+id/general_description_today" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:text="@string/temperature"
-                                android:lines="1"
-                                android:maxLength="20" />
-
-                            <View
-                                android:layout_width="10dp"
-                                android:layout_height="10dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:layout_marginRight="16dp"
-                                android:text="+23"
-                                android:id="@+id/temperature_val_today" />
-
-                            <View
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_weight="1"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:text="@string/pressure"
-                                android:lines="1"
-                                android:maxLength="20" />
-
-                            <View
-                                android:layout_width="10dp"
-                                android:layout_height="10dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:text="1541.5"
-                                android:id="@+id/pressure_val_today" />
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        tools:text="1541.5" />
 
 
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:text="@string/humidity"
-                                android:lines="1"
-                                android:maxLength="20" />
-
-                            <View
-                                android:layout_width="10dp"
-                                android:layout_height="10dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:layout_marginRight="16dp"
-                                android:text="78"
-                                android:id="@+id/humidity_val_today" />
-
-                            <View
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:layout_weight="1"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:text="@string/wind_speed"
-                                android:lines="1"
-                                android:maxLength="20" />
-
-                            <View
-                                android:layout_width="10dp"
-                                android:layout_height="10dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:text="6.8"
-                                android:id="@+id/wind_speed_val_today" />
-
-
-                        </LinearLayout>
-                    </LinearLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:drawableLeft="@drawable/ic_humidity"
+                        android:lines="1"
+                        android:maxLength="20"
+                        android:text="@string/humidity"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+
+                    <TextView
+                        android:id="@+id/humidity_val_today"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        tools:text="78" />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:drawableLeft="@drawable/ic_wind"
+                        android:lines="1"
+                        android:maxLength="20"
+                        android:text="@string/wind_speed"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+
+                    <TextView
+                        android:id="@+id/wind_speed_val_today"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        tools:text="6.8" />
+
+
+                </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:textStyle="bold"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/nearest_days" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:scrollbars="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/Black" />
 
         </LinearLayout>
-    </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="13dp"
+            android:text="@string/nearest_days"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
 
 </LinearLayout>
