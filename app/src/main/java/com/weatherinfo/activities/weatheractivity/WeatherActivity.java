@@ -30,15 +30,17 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.weatherinfo.R;
 import com.weatherinfo.adapters.WeatherAdapter;
+import com.weatherinfo.di.Dag2Components;
 import com.weatherinfo.model.ForecastData;
 import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.utils.PermissionsUtils;
 import com.weatherinfo.utils.Universal;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,9 +56,14 @@ public class WeatherActivity extends AppCompatActivity implements
     @BindView(R.id.dataLayout)
     LinearLayout dataLayout;
 
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    private LocationSettingsRequest mLocationSettingsRequest;
+    @Inject
+    GoogleApiClient mGoogleApiClient;
+    @Inject
+    LocationRequest mLocationRequest;
+    @Inject
+    LocationSettingsRequest mLocationSettingsRequest;
+    @Inject
+    PendingResult<LocationSettingsResult> mResult;
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -87,7 +94,6 @@ public class WeatherActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
         ButterKnife.bind(this);
-
         setSupportActionBar(toolbar);
         checkPermissions();
         presenter = new PresenterActivityWeather(this);
@@ -159,7 +165,7 @@ public class WeatherActivity extends AppCompatActivity implements
 
     @Override
     public void onReceiveWeatherForecast(WeatherResponse response) {
-        if(response != null){
+        if (response != null) {
             mapDataForToday(response);
             ArrayList<ForecastData> list = new ArrayList<>();
             list.addAll(Arrays.asList(response.getList()));
@@ -188,9 +194,9 @@ public class WeatherActivity extends AppCompatActivity implements
         }
     }
 
-    private void checkPermissions(){
-        if(PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_COARSE_LOCATION)
-                && PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_FINE_LOCATION)){
+    private void checkPermissions() {
+        if (PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_COARSE_LOCATION)
+                && PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_FINE_LOCATION)) {
             locationInit();
         } else {
             PermissionsUtils.requestPermission(this, new PermissionsUtils.Permissions[]{PermissionsUtils.Permissions.ACCESS_COARSE_LOCATION,
@@ -198,52 +204,21 @@ public class WeatherActivity extends AppCompatActivity implements
         }
     }
 
-    private void locationInit(){
-        initGoogleApiClientApiClient();
-        createLocationRequest();
-        buildLocationSettingsRequest();
-        checkLocationSettings();
-    }
-
-    private synchronized void initGoogleApiClientApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+    private void locationInit() {
+        Dag2Components.getComponentWeatherActivity(this, this, this).injectWeatherActivity(this);
         mGoogleApiClient.connect();
     }
 
-    private void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(2000);
-        mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-    }
-
-    private void buildLocationSettingsRequest() {
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(mLocationRequest);
-        builder.setAlwaysShow(true);
-        mLocationSettingsRequest = builder.build();
-    }
-
-    private void checkLocationSettings() {
-        PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(
-                        mGoogleApiClient,
-                        mLocationSettingsRequest
-                );
-        result.setResultCallback(this);
-    }
-
     private void startLocationUpdates() {
-        Toast.makeText(this, getString(R.string.weather_response_obtaining), Toast.LENGTH_LONG).show();
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient,
-                mLocationRequest,
-                this
-        );
+        if (PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_COARSE_LOCATION)
+                && PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_FINE_LOCATION)) {
+            Toast.makeText(this, getString(R.string.weather_response_obtaining), Toast.LENGTH_LONG).show();
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                    mGoogleApiClient,
+                    mLocationRequest,
+                    this
+            );
+        }
     }
 
     private void settingList(List<ForecastData> list){
