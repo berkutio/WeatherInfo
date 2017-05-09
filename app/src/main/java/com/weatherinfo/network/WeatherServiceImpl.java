@@ -2,8 +2,14 @@ package com.weatherinfo.network;
 
 import android.content.Context;
 import android.location.Location;
+
+import com.weatherinfo.di.Dag2Components;
 import com.weatherinfo.model.WeatherResponse;
+
+import javax.inject.Inject;
+
 import retrofit2.Call;
+import retrofit2.Retrofit;
 
 /**
  * Created by user on 23.04.17.
@@ -11,19 +17,19 @@ import retrofit2.Call;
 
 public class WeatherServiceImpl {
 
-    private Context context;
-    private String baseUrl;
     private String APIkey;
 
+    @Inject
+    Retrofit retrofit;
+
     public WeatherServiceImpl(Context context, String baseUrl, String APIkey) {
-        this.context = context;
-        this.baseUrl = baseUrl;
         this.APIkey = APIkey;
+        Dag2Components.getComponentNetwork(baseUrl).injectService(this);
     }
 
 
     public Call<WeatherResponse> getListData(Location location, int days){
-        WeatherService service = ServiceConnectionFacory.getRetrofitInstance(context, baseUrl).create(WeatherService.class);
+        WeatherService service = retrofit.create(WeatherService.class);
         return service.getForecast(location.getLatitude(), location.getLongitude(), days, APIkey);
     }
 

@@ -10,6 +10,10 @@ import com.weatherinfo.di.location.DaggerComponentWeatherActivity;
 import com.weatherinfo.di.location.GoogleApiClientModule;
 import com.weatherinfo.di.location.LocationModule;
 import com.weatherinfo.di.location.LocationPendingResultModule;
+import com.weatherinfo.di.network.CacheModule;
+import com.weatherinfo.di.network.ComponentNetwork;
+import com.weatherinfo.di.network.DaggerComponentNetwork;
+import com.weatherinfo.di.network.NetworkModule;
 
 /**
  * Incapsulates dagger components
@@ -22,12 +26,17 @@ public class Dag2Components {
             GoogleApiClient.ConnectionCallbacks connectionCallback,
             GoogleApiClient.OnConnectionFailedListener connectionFailedListener){
 
-        ComponentWeatherActivity activity = DaggerComponentWeatherActivity.builder()
+        return DaggerComponentWeatherActivity.builder()
                 .googleApiClientModule(new GoogleApiClientModule(connectionCallback, connectionFailedListener))
                 .contextModule(new ContextModule())
                 .locationModule(new LocationModule())
                 .locationPendingResultModule(new LocationPendingResultModule(resultCallback)).build();
-        return activity;
+    }
+
+    public static ComponentNetwork getComponentNetwork(String baseUrl){
+        return DaggerComponentNetwork.builder()
+                .networkModule(new NetworkModule(baseUrl))
+                .cacheModule(new CacheModule()).build();
     }
 
 
