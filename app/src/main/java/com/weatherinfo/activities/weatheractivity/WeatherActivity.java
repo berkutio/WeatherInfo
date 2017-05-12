@@ -28,6 +28,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.weatherinfo.App;
 import com.weatherinfo.R;
 import com.weatherinfo.adapters.WeatherAdapter;
 import com.weatherinfo.di.Dag2Components;
@@ -96,7 +97,7 @@ public class WeatherActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         checkPermissions();
-        presenter = new PresenterActivityWeather(this);
+        presenter = new PresenterActivityWeather(App.getAppContext(), this);
     }
 
     @Override

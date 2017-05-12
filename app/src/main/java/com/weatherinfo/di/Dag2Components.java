@@ -1,6 +1,8 @@
 package com.weatherinfo.di;
 
 
+import android.content.Context;
+
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationSettingsResult;
@@ -33,10 +35,10 @@ public class Dag2Components {
                 .locationPendingResultModule(new LocationPendingResultModule(resultCallback)).build();
     }
 
-    public static ComponentNetwork getComponentNetwork(String baseUrl){
+    public static ComponentNetwork getComponentNetwork(Context context, String baseUrl){
         return DaggerComponentNetwork.builder()
                 .networkModule(new NetworkModule(baseUrl))
-                .cacheModule(new CacheModule()).build();
+                .cacheModule(new CacheModule(context)).build();
     }
 
 

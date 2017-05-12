@@ -1,5 +1,6 @@
 package com.weatherinfo.activities.weatheractivity;
 
+import android.content.Context;
 import android.location.Location;
 import android.support.annotation.VisibleForTesting;
 import com.weatherinfo.App;
@@ -16,9 +17,12 @@ import retrofit2.Response;
 
 public class PresenterActivityWeather implements IPresenterWeather {
 
+    private Context applicationContext;
+
     private IViewWeather activity;
 
-    public PresenterActivityWeather(IViewWeather activity) {
+    public PresenterActivityWeather(Context applicationContext, IViewWeather activity) {
+        this.applicationContext = applicationContext;
         this.activity = activity;
     }
 
@@ -29,7 +33,7 @@ public class PresenterActivityWeather implements IPresenterWeather {
 
     @Override
     public void onObtainLocation(Location location) {
-        WeatherServiceImpl service = new WeatherServiceImpl(App.getAppContext(), Constants.WEATHER_URI, Constants.WEATHER_API_KEY);
+        WeatherServiceImpl service = new WeatherServiceImpl(applicationContext, Constants.WEATHER_URI, Constants.WEATHER_API_KEY);
         service.getListData(location, 6).enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {

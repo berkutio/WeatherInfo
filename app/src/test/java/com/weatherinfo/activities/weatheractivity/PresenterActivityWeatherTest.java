@@ -1,5 +1,6 @@
 package com.weatherinfo.activities.weatheractivity;
 
+import android.content.Context;
 import android.location.Location;
 import android.os.SystemClock;
 import android.provider.Settings;
@@ -36,10 +37,11 @@ public class PresenterActivityWeatherTest {
 
     @Before
     public void setUp() {
+        Context context = mock(Context.class);
         location = mock(Location.class);
         when(location.getLatitude()).thenReturn(46.9534361);
         when(location.getLongitude()).thenReturn(31.9381652);
-        presenter = new PresenterActivityWeather(viewWeather);
+        presenter = new PresenterActivityWeather(context, viewWeather);
     }
 
     @Test

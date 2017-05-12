@@ -1,11 +1,8 @@
 package com.weatherinfo.di.network;
 
-import com.weatherinfo.App;
-
+import android.content.Context;
 import java.io.File;
-
 import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
@@ -18,10 +15,16 @@ public class CacheModule {
 
     private static final int CACHE_FILE_SIZE = 2*1024*1024;
 
+    private Context context;
+
+    public CacheModule(Context context) {
+        this.context = context;
+    }
+
     @Provides
     @Singleton
     public Cache getCache(){
-        File cacheFile = new File(App.getAppContext().getCacheDir(), "http");
+        File cacheFile = new File(context.getCacheDir(), "http");
         return new Cache(cacheFile, CACHE_FILE_SIZE);
     }
 

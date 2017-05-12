@@ -24,7 +24,7 @@ public class WeatherServiceImpl {
 
     public WeatherServiceImpl(Context context, String baseUrl, String APIkey) {
         this.APIkey = APIkey;
-        Dag2Components.getComponentNetwork(baseUrl).injectService(this);
+        Dag2Components.getComponentNetwork(context, baseUrl).injectService(this);
     }
 
 
