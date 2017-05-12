@@ -14,7 +14,7 @@ public class LocationModule {
 
 
     @Provides
-    @Singleton
+    @ScopeLocation
     public LocationRequest getLocationRequest(){
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(2000);
@@ -24,7 +24,7 @@ public class LocationModule {
     }
 
     @Provides
-    @Singleton
+    @ScopeLocation
     public LocationSettingsRequest getLocationSettingsRequest(LocationRequest locationRequest){
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(locationRequest);

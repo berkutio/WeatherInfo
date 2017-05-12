@@ -6,9 +6,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
-
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -26,7 +23,7 @@ public class LocationPendingResultModule {
     }
 
     @Provides
-    @Singleton
+    @ScopeLocation
     public PendingResult<LocationSettingsResult> getPendingResult(GoogleApiClient googleApiClient, LocationSettingsRequest settingsRequest){
         PendingResult<LocationSettingsResult> result =
                 LocationServices.SettingsApi.checkLocationSettings(

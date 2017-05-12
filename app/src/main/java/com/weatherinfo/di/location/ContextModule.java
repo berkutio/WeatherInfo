@@ -21,7 +21,7 @@ public class ContextModule {
     }
 
     @Provides
-    @Singleton
+    @ScopeLocation
     public Context getContext(){
         return context;
     }

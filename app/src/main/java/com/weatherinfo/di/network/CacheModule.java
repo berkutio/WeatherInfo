@@ -22,7 +22,7 @@ public class CacheModule {
     }
 
     @Provides
-    @Singleton
+    @ScopeNetwork
     public Cache getCache(){
         File cacheFile = new File(context.getCacheDir(), "http");
         return new Cache(cacheFile, CACHE_FILE_SIZE);

@@ -47,7 +47,7 @@ public class NetworkModule {
     }
 
     @Provides
-    @Singleton
+    @ScopeNetwork
     public Retrofit getRetrofitInstance(OkHttpClient client, Gson gson){
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -57,7 +57,7 @@ public class NetworkModule {
     }
 
     @Provides
-    @Singleton
+    @ScopeNetwork
     public OkHttpClient getOkHttpClient(Interceptor cacheInterceptor, Cache cache){
         return new OkHttpClient.Builder()
                 .addInterceptor(cacheInterceptor)
@@ -70,7 +70,7 @@ public class NetworkModule {
 
 
     @Provides
-    @Singleton
+    @ScopeNetwork
     public Interceptor getCacheInterceptor(){
         return new Interceptor() {
             @Override
@@ -88,7 +88,7 @@ public class NetworkModule {
 
 
     @Provides
-    @Singleton
+    @ScopeNetwork
     public Gson getGson(){
         GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(Date.class, new DateAsLongAdapter());

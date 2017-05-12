@@ -23,7 +23,7 @@ public class GoogleApiClientModule {
     }
 
     @Provides
-    @Singleton
+    @ScopeLocation
     public GoogleApiClient getGoogleApiClient(Context context){
         return new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(connectionCallback)
