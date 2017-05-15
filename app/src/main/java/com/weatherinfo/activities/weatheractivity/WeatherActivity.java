@@ -36,6 +36,7 @@ import com.weatherinfo.model.ForecastData;
 import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.utils.PermissionsUtils;
 import com.weatherinfo.utils.Universal;
+import com.weatherinfo.utils.rx.ApplicationProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,7 +98,7 @@ public class WeatherActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         checkPermissions();
-        presenter = new PresenterActivityWeather(App.getAppContext(), this);
+        presenter = new PresenterActivityWeather(App.getAppContext(), new ApplicationProvider(), this);
     }
 
     @Override

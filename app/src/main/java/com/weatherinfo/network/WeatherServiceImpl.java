@@ -8,7 +8,7 @@ import com.weatherinfo.model.WeatherResponse;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.Retrofit;
 
 /**
@@ -27,8 +27,13 @@ public class WeatherServiceImpl {
         Dag2Components.getComponentNetwork(context, baseUrl).injectService(this);
     }
 
+//    @Deprecated
+//    public Call<WeatherResponse> getListData(Location location, int days){
+//        WeatherService service = retrofit.create(WeatherService.class);
+//        return service.getForecast(location.getLatitude(), location.getLongitude(), days, APIkey);
+//    }
 
-    public Call<WeatherResponse> getListData(Location location, int days){
+    public Observable<WeatherResponse> getListData(Location location, int days){
         WeatherService service = retrofit.create(WeatherService.class);
         return service.getForecast(location.getLatitude(), location.getLongitude(), days, APIkey);
     }

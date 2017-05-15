@@ -2,16 +2,16 @@ package com.weatherinfo.activities.weatheractivity;
 
 import android.content.Context;
 import android.location.Location;
-import android.os.SystemClock;
-import android.provider.Settings;
-
 import com.weatherinfo.model.WeatherResponse;
+import com.weatherinfo.rxutils.TestSchedulerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import io.reactivex.schedulers.TestScheduler;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
@@ -34,6 +34,7 @@ public class PresenterActivityWeatherTest {
 
     private PresenterActivityWeather presenter;
 
+    private TestScheduler mTestScheduler;
 
     @Before
     public void setUp() {
@@ -41,7 +42,9 @@ public class PresenterActivityWeatherTest {
         location = mock(Location.class);
         when(location.getLatitude()).thenReturn(46.9534361);
         when(location.getLongitude()).thenReturn(31.9381652);
-        presenter = new PresenterActivityWeather(context, viewWeather);
+        mTestScheduler = new TestScheduler();
+        TestSchedulerProvider testSchedulerProvider = new TestSchedulerProvider(mTestScheduler);
+        presenter = new PresenterActivityWeather(context, testSchedulerProvider, viewWeather);
     }
 
     @Test
@@ -53,6 +56,7 @@ public class PresenterActivityWeatherTest {
     @Test
     public void testOnObtainLocation() throws Exception {
         presenter.onObtainLocation(location);
+        mTestScheduler.triggerActions();
         Thread.sleep(1000);
         verify(viewWeather, atLeast(1)).onReceiveWeatherForecast((WeatherResponse) any());
     }

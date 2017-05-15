@@ -11,12 +11,10 @@ import com.weatherinfo.utils.Constants;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import java.io.IOException;
-import java.util.List;
+import io.reactivex.observers.DisposableObserver;
 
-import retrofit2.Response;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -41,26 +39,40 @@ public class WeatherServiceImplTest {
 
     @Test
     public void testGetListData() throws IOException {
-        Response<WeatherResponse> data = service.getListData(location, 6).execute();
-        WeatherResponse response = data.body();
-        assertNotNull(response);
-        System.out.println("Weather response + " + response);
-        City city = response.getCity();
-        assertNotNull(city);
-        assertEquals("Mykolayiv", city.getName());
-        ForecastData[] list = response.getList();
-        assertNotNull(list);
-        assertEquals(6, list.length);
-        ForecastData forecastData = list[0];
-        assertNotNull(forecastData);
-        WeatherDescription[] descriptions = forecastData.getWeather();
-        assertNotNull(descriptions);
-        assertNotEquals(0, descriptions.length);
-        assertNotNull(descriptions[0].getDescription());
-        assertNotEquals(0, forecastData.getDt());
-        assertNotEquals(0, forecastData.getDeg());
-        assertNotEquals(0, forecastData.getHumidity());
-        assertNotEquals(0, forecastData.getPressure());
+        service.getListData(location, 6)
+                .subscribeWith(new DisposableObserver<WeatherResponse>() {
+                    @Override
+                    public void onNext(WeatherResponse response) {
+                        assertNotNull(response);
+                        System.out.println("Weather response + " + response);
+                        City city = response.getCity();
+                        assertNotNull(city);
+                        assertEquals("Mykolayiv", city.getName());
+                        ForecastData[] list = response.getList();
+                        assertNotNull(list);
+                        assertEquals(6, list.length);
+                        ForecastData forecastData = list[0];
+                        assertNotNull(forecastData);
+                        WeatherDescription[] descriptions = forecastData.getWeather();
+                        assertNotNull(descriptions);
+                        assertNotEquals(0, descriptions.length);
+                        assertNotNull(descriptions[0].getDescription());
+                        assertNotEquals(0, forecastData.getDt());
+                        assertNotEquals(0, forecastData.getDeg());
+                        assertNotEquals(0, forecastData.getHumidity());
+                        assertNotEquals(0, forecastData.getPressure());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        fail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
 }
