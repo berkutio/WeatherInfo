@@ -11,5 +11,5 @@ Geolocation and Network dependencies were rewrited with Dagger2 library included
 
 
 Further plans:
-1. Implementing RxAndroid
+1. Implementing RxAndroid (Done! See rx branch)
 2. Showing differences between MVP and MVVM desigh patterns with databinding.
