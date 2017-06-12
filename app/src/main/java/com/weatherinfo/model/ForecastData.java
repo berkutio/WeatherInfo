@@ -101,19 +101,4 @@ public class ForecastData {
                 '}';
     }
 
-    //    private double kelvinToCelsius(double temperatureInKelvin){
-//        return temperatureInKelvin - 273;
-//    }
-//
-//    private String[] getStringDateTime(long unixTime){
-//        String date = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date (unixTime*1000));
-//        String[] dateTimeArray = date.split(" ");
-//        return dateTimeArray;
-//    }
-//
-//    private double roundNew(double number, int scale) {
-//        return new BigDecimal(number).setScale(scale, RoundingMode.UP)
-//                .doubleValue();
-//    }
-
 }
