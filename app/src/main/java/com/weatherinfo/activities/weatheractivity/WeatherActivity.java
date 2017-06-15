@@ -8,11 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -27,30 +23,23 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.weatherinfo.App;
 import com.weatherinfo.R;
-import com.weatherinfo.adapters.WeatherAdapter;
-import com.weatherinfo.databinding.ActivityWeatherBinding;
+import com.weatherinfo.databinding.ActivityMvvmweatherBinding;
 import com.weatherinfo.di.Dag2Components;
-import com.weatherinfo.model.DataBindingForecastData;
-import com.weatherinfo.model.ForecastData;
-import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.utils.PermissionsUtils;
 import com.weatherinfo.utils.rx.ApplicationProvider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.inject.Inject;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class WeatherActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
-        ResultCallback<LocationSettingsResult>, IViewWeather {
+        ResultCallback<LocationSettingsResult>, Observer {
 
     public static final int REQUEST_CODE_PERMISSIONS = 101;
 
@@ -66,33 +55,28 @@ public class WeatherActivity extends AppCompatActivity implements
     @Inject
     PendingResult<LocationSettingsResult> mResult;
 
-    @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    private ActivityWeatherBinding weatherBinding;
-
-    private WeatherAdapter mWeatherAdapter;
-
-    private IPresenterWeather presenter;
+    private ActivityMvvmweatherBinding weatherBinding;
+    private ViewModelWeatherActivity viewModelWeatherActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weather);
-        weatherBinding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        weatherBinding = DataBindingUtil.setContentView(this, R.layout.activity_mvvmweather);
+        viewModelWeatherActivity = new ViewModelWeatherActivity(this, new ApplicationProvider());
+        weatherBinding.setVmWeather(viewModelWeatherActivity);
         checkPermissions();
-        presenter = new PresenterActivityWeather(App.getAppContext(), new ApplicationProvider(), this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.onDestroy();
+        viewModelWeatherActivity.onDestroy();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 
     @Override
@@ -150,21 +134,7 @@ public class WeatherActivity extends AppCompatActivity implements
     @Override
     public void onLocationChanged(Location location) {
         mGoogleApiClient.disconnect();
-        presenter.onObtainLocation(location);
-    }
-
-    @Override
-    public void onReceiveWeatherForecast(WeatherResponse response) {
-        if (response != null) {
-            mapDataForToday(response);
-            ArrayList<ForecastData> list = new ArrayList<>();
-            list.addAll(Arrays.asList(response.getList()));
-            list.remove(0);
-            settingList(list);
-            dataLayout.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this, getString(R.string.error_weather_response), Toast.LENGTH_LONG).show();
-        }
+        viewModelWeatherActivity.onObtainLocation(location);
     }
 
     @Override
@@ -209,21 +179,6 @@ public class WeatherActivity extends AppCompatActivity implements
                     this
             );
         }
-    }
-
-    private void settingList(List<ForecastData> list){
-        mRecyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mWeatherAdapter = new WeatherAdapter(list);
-        mRecyclerView.setAdapter(mWeatherAdapter);
-    }
-
-    private void mapDataForToday(WeatherResponse response){
-        toolbar.setTitle(getString(R.string.app_name) + " in " + response.getCity().getName());
-        ForecastData forecastData = response.getList()[0];
-        weatherBinding.setForecast(new DataBindingForecastData(forecastData));
     }
 
 
