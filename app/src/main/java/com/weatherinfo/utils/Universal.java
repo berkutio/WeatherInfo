@@ -1,7 +1,6 @@
 package com.weatherinfo.utils;
 
 import android.databinding.BindingAdapter;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.weatherinfo.R;
@@ -23,7 +22,6 @@ public class Universal {
 
     @BindingAdapter("imageResource")
     public static void setImageResource(ImageView imageView, String description){
-        Log.d("myLogs", "setImageResource");
         if(description != null){
             if(description.contains("clear")){
                 imageView.setImageResource(R.drawable.ic_sunny);

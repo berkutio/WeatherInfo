@@ -13,16 +13,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import io.reactivex.observers.DisposableObserver;
 
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by user on 23.04.17.
- */
+
 public class WeatherServiceImplTest {
 
     private WeatherServiceImpl service;

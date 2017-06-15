@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -33,7 +32,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.inject.Inject;
-import butterknife.BindView;
 
 public class WeatherActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -42,9 +40,6 @@ public class WeatherActivity extends AppCompatActivity implements
         ResultCallback<LocationSettingsResult>, Observer {
 
     public static final int REQUEST_CODE_PERMISSIONS = 101;
-
-    @BindView(R.id.dataLayout)
-    LinearLayout dataLayout;
 
     @Inject
     GoogleApiClient mGoogleApiClient;
