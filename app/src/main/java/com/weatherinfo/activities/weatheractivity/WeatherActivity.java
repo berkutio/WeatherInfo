@@ -141,9 +141,6 @@ public class WeatherActivity extends AppCompatActivity implements
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d("myLogs", "onConnectionFailed " + connectionResult.toString());
-        Log.d("myLogs", "onConnectionFailed " + connectionResult.getErrorMessage());
-        Log.d("myLogs", "onConnectionFailed " + connectionResult.getErrorCode());
         Toast.makeText(this, getString(R.string.error_weather_response), Toast.LENGTH_LONG).show();
     }
 

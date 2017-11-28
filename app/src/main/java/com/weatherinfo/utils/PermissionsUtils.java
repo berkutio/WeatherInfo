@@ -44,20 +44,10 @@ public class PermissionsUtils {
         builder.setMessage(context.getString(R.string.app_name) + " " + permissionsDescription);
 
         String positiveText = context.getString(R.string.settings);
-        builder.setPositiveButton(positiveText, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                openSettings(context, requestCode);
-            }
-        });
+        builder.setPositiveButton(positiveText, (dialog, which) -> openSettings(context, requestCode));
 
         String negativeText = context.getString(R.string.exit);
-        builder.setNegativeButton(negativeText, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                context.finish();
-            }
-        });
+        builder.setNegativeButton(negativeText, (dialog, which) -> context.finish());
 
         AlertDialog dialog = builder.create();
         // display dialog
