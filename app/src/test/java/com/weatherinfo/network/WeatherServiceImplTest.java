@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import io.reactivex.observers.DisposableObserver;
 
 
 import static org.junit.Assert.*;
@@ -39,7 +38,7 @@ public class WeatherServiceImplTest {
 
     @Test
     public void testGetListData() throws IOException {
-        WeatherResponse response = service.getListData(location, 6).blockingSingle();
+        WeatherResponse response = service.getListData(location, 6).blockingGet();
         assertNotNull(response);
         System.out.println("Weather response + " + response);
         City city = response.getCity();
@@ -57,6 +56,21 @@ public class WeatherServiceImplTest {
         assertNotEquals(0, forecastData.getDeg());
         assertNotEquals(0, forecastData.getHumidity());
         assertNotEquals(0, forecastData.getPressure());
+    }
+
+    @Test
+    public void testGetListDataNewVersion() {
+        service.getListData(location, 6)
+                .test()
+                .assertNoErrors()
+                .assertComplete()
+                .assertValue(response -> {
+                        if(response != null) {
+                            System.out.println("Weather response + " + response);
+                            return true;
+                        }
+                        return false;
+                });
     }
 
 }

@@ -11,8 +11,6 @@ import com.weatherinfo.model.ForecastData;
 import com.weatherinfo.utils.Universal;
 import java.util.List;
 
-import butterknife.BindView;
-
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
 
     private List<ForecastData> list;
@@ -29,13 +27,13 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
 
         public ViewHolder(View v) {
             super(v);
-            imageView = (ImageView)v.findViewById(R.id.im_description);
-            data = (TextView)v.findViewById(R.id.data);
-            general = (TextView)v.findViewById(R.id.general_description);
-            temperature = (TextView)v.findViewById(R.id.temperature_val);
-            pressure = (TextView)v.findViewById(R.id.pressure_val);
-            humidity = (TextView)v.findViewById(R.id.humidity_val);
-            windSpeed = (TextView)v.findViewById(R.id.wind_speed_val);
+            imageView = v.findViewById(R.id.im_description);
+            data = v.findViewById(R.id.data);
+            general = v.findViewById(R.id.general_description);
+            temperature = v.findViewById(R.id.temperature_val);
+            pressure = v.findViewById(R.id.pressure_val);
+            humidity = v.findViewById(R.id.humidity_val);
+            windSpeed = v.findViewById(R.id.wind_speed_val);
         }
     }
 
