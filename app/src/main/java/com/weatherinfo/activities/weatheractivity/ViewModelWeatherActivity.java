@@ -24,16 +24,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Observable;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 
 public class ViewModelWeatherActivity extends Observable {
 
     private Activity context;
     private SchedulerProvider provider;
-    private Disposable disposable;
     private WeatherAdapter weatherAdapter;
+
+    private DisposableSingleObserver<WeatherResponse> disposableSingleObserver;
 
     public ObservableInt observableVisibility;
     public ObservableField<WeatherResponse> observableWeatherResponse;
@@ -52,22 +51,22 @@ public class ViewModelWeatherActivity extends Observable {
     }
 
     public void onDestroy(){
-        if (disposable != null && !disposable.isDisposed()) {
-            disposable.dispose();
+        if (disposableSingleObserver != null && !disposableSingleObserver.isDisposed()) {
+            disposableSingleObserver.dispose();
         }
         context = null;
     }
 
     public void onObtainLocation(Location location){
         WeatherServiceImpl service = new WeatherServiceImpl(context, Constants.WEATHER_URI, Constants.WEATHER_API_KEY);
-        disposable = service.getListData(location, 6)
+        disposableSingleObserver = service.getListData(location, 6)
                 .subscribeOn(provider.io())
                 .observeOn(provider.mainThread())
-                .subscribeWith(new DisposableObserver<WeatherResponse>() {
+                .subscribeWith(new DisposableSingleObserver<WeatherResponse>() {
                     @Override
-                    public void onNext(WeatherResponse response) {
+                    public void onSuccess(WeatherResponse response) {
                         observableWeatherResponse.set(response);
-                        if (response != null && response.getList() != null && response.getList().length > 0){
+                        if (response != null && response.getList() != null && response.getList().length > 0) {
                             observableForecastDataToday.set(new DataBindingForecastData(response.getList()[0]));
                         }
                         ArrayList<ForecastData> list = new ArrayList<>();
@@ -79,14 +78,9 @@ public class ViewModelWeatherActivity extends Observable {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(context != null){
+                        if (context != null) {
                             Toast.makeText(context, context.getString(R.string.error_weather_response), Toast.LENGTH_LONG).show();
                         }
-                    }
-
-                    @Override
-                    public void onComplete() {
-
                     }
                 });
     }

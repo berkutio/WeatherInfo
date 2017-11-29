@@ -36,7 +36,7 @@ public class WeatherServiceImplTest {
 
     @Test
     public void testGetListData() throws IOException {
-        WeatherResponse response = service.getListData(location, 6).blockingSingle();
+        WeatherResponse response = service.getListData(location, 6).blockingGet();
         assertNotNull(response);
         System.out.println("Weather response + " + response);
         City city = response.getCity();
