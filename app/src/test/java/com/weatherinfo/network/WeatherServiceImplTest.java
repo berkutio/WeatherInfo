@@ -13,8 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import io.reactivex.observers.DisposableObserver;
-
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -39,7 +37,7 @@ public class WeatherServiceImplTest {
 
     @Test
     public void testGetListData() throws IOException {
-        WeatherResponse response = service.getListData(location, 6).blockingSingle();
+        WeatherResponse response = service.getListData(location, 6).blockingGet();
         assertNotNull(response);
         System.out.println("Weather response + " + response);
         City city = response.getCity();

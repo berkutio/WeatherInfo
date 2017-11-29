@@ -7,9 +7,7 @@ import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.network.WeatherServiceImpl;
 import com.weatherinfo.utils.Constants;
 import com.weatherinfo.utils.rx.SchedulerProvider;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 
 
 /**
@@ -22,7 +20,7 @@ public class PresenterActivityWeather implements IPresenterWeather {
 
     private IViewWeather activity;
 
-    private Disposable disposable;
+    private DisposableSingleObserver<WeatherResponse> disposableSingleObserver;
 
     private SchedulerProvider provider;
 
@@ -34,8 +32,8 @@ public class PresenterActivityWeather implements IPresenterWeather {
 
     @Override
     public void onDestroy(){
-        if (disposable != null && !disposable.isDisposed()) {
-            disposable.dispose();
+        if (disposableSingleObserver != null && !disposableSingleObserver.isDisposed()) {
+            disposableSingleObserver.dispose();
         }
         activity = null;
     }
@@ -43,23 +41,18 @@ public class PresenterActivityWeather implements IPresenterWeather {
     @Override
     public void onObtainLocation(Location location) {
         WeatherServiceImpl service = new WeatherServiceImpl(applicationContext, Constants.WEATHER_URI, Constants.WEATHER_API_KEY);
-        disposable = service.getListData(location, 6)
+        disposableSingleObserver = service.getListData(location, 6)
                 .subscribeOn(provider.io())
                 .observeOn(provider.mainThread())
-                .subscribeWith(new DisposableObserver<WeatherResponse>() {
+                .subscribeWith(new DisposableSingleObserver<WeatherResponse>() {
                     @Override
-                    public void onNext(WeatherResponse response) {
+                    public void onSuccess(WeatherResponse response) {
                         activity.onReceiveWeatherForecast(response);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         activity.onReceiveWeatherForecast(null);
-                    }
-
-                    @Override
-                    public void onComplete() {
-
                     }
                 });
     }
