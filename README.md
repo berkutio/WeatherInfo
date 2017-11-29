@@ -1,5 +1,4 @@
 # WeatherInfo
 
-Replaced Geolocation and Network strong dependencies with Dagger2. Reduced quantity of code in Weather activity. 
-Currently, master branch and dagger branch could be compared and differences as well as possible examples of Dagger2 applying
-could be noticed.
+Implemented databinding for both Activity and Adapter. Given approach shows that databinding can be applied not only for MVVM architecture but also for MVP. Notwithstanding that Databinding reduces the amount of boilerplate code it also requires single 
+fields provided in model.
