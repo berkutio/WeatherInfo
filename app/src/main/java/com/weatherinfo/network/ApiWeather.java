@@ -11,8 +11,7 @@ import retrofit2.http.Query;
  * Created by user on 23.04.17.
  */
 
-public interface WeatherService {
-
+public interface ApiWeather {
 
     @GET("forecast/daily?")
     Single<WeatherResponse> getForecast(@Query("lat") double latitude, @Query("lon") double longitude,

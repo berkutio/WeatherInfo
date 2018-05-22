@@ -1,4 +1,4 @@
-package com.weatherinfo.di.location;
+package com.weatherinfo.location;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -13,12 +13,12 @@ import dagger.Provides;
  * Created by user on 07.05.17.
  */
 
-@Module(includes ={GoogleApiClientModule.class, LocationModule.class})
-public class LocationPendingResultModule {
+@Module
+public class ModuleLocationPendingResult {
 
     ResultCallback<LocationSettingsResult> resultCallback;
 
-    public LocationPendingResultModule(ResultCallback<LocationSettingsResult> resultCallback) {
+    public ModuleLocationPendingResult(ResultCallback<LocationSettingsResult> resultCallback) {
         this.resultCallback = resultCallback;
     }
 

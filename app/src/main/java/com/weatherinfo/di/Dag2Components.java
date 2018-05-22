@@ -6,16 +6,14 @@ import android.content.Context;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationSettingsResult;
-import com.weatherinfo.di.location.ComponentWeatherActivity;
-import com.weatherinfo.di.location.ContextModule;
-import com.weatherinfo.di.location.DaggerComponentWeatherActivity;
-import com.weatherinfo.di.location.GoogleApiClientModule;
-import com.weatherinfo.di.location.LocationModule;
-import com.weatherinfo.di.location.LocationPendingResultModule;
 import com.weatherinfo.di.network.CacheModule;
 import com.weatherinfo.di.network.ComponentNetwork;
 import com.weatherinfo.di.network.DaggerComponentNetwork;
 import com.weatherinfo.di.network.NetworkModule;
+import com.weatherinfo.location.ComponentLocation;
+import com.weatherinfo.location.ModuleGoogleApiClient;
+import com.weatherinfo.location.ModuleLocation;
+import com.weatherinfo.location.ModuleLocationPendingResult;
 
 /**
  * Incapsulates dagger components
@@ -23,16 +21,16 @@ import com.weatherinfo.di.network.NetworkModule;
 public class Dag2Components {
 
 
-    public static ComponentWeatherActivity getComponentWeatherActivity(
+    public static ComponentLocation getComponentWeatherActivity(
             ResultCallback<LocationSettingsResult> resultCallback,
             GoogleApiClient.ConnectionCallbacks connectionCallback,
             GoogleApiClient.OnConnectionFailedListener connectionFailedListener){
-
-        return DaggerComponentWeatherActivity.builder()
-                .googleApiClientModule(new GoogleApiClientModule(connectionCallback, connectionFailedListener))
-                .contextModule(new ContextModule())
-                .locationModule(new LocationModule())
-                .locationPendingResultModule(new LocationPendingResultModule(resultCallback)).build();
+            return null;
+//        return DaggerComponentWeatherActivity.builder()
+//                .googleApiClientModule(new ModuleGoogleApiClient(connectionCallback, connectionFailedListener))
+//                .contextModule(new ContextModule())
+//                .locationModule(new ModuleLocation())
+//                .locationPendingResultModule(new ModuleLocationPendingResult(resultCallback)).build();
     }
 
     public static ComponentNetwork getComponentNetwork(Context context, String baseUrl){

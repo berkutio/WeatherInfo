@@ -1,16 +1,14 @@
-package com.weatherinfo.di.location;
+package com.weatherinfo.location;
 
 
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationSettingsRequest;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class LocationModule {
+public class ModuleLocation {
 
 
     @Provides

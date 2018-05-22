@@ -1,4 +1,4 @@
-package com.weatherinfo.di.location;
+package com.weatherinfo.location;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

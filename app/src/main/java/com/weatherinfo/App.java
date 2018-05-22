@@ -2,19 +2,33 @@ package com.weatherinfo;
 
 import android.app.Application;
 
-/**
- * Created by user on 26.04.17.
- */
+import com.weatherinfo.appconfig.ComponentApplication;
+import com.weatherinfo.appconfig.DaggerComponentApplication;
+import com.weatherinfo.appconfig.ModuleApplication;
+
 
 public class App extends Application {
 
-    private static App instance;
+    private ComponentApplication componentApp;
 
-    public App(){
+    private static Application instance;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
         instance = this;
+        initComponentApp();
     }
 
-    public static App getAppContext(){
+    private void initComponentApp(){
+        componentApp = DaggerComponentApplication.builder().moduleApplication(new ModuleApplication(this)).build();
+    }
+
+    public ComponentApplication getComponentApp() {
+        return componentApp;
+    }
+
+    public static Application getApp() {
         return instance;
     }
 

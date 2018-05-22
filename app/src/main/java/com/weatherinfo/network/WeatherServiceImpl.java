@@ -27,7 +27,7 @@ public class WeatherServiceImpl {
     }
 
     public Single<WeatherResponse> getListData(Location location, int days){
-        WeatherService service = retrofit.create(WeatherService.class);
+        ApiWeather service = retrofit.create(ApiWeather.class);
         return service.getForecast(location.getLatitude(), location.getLongitude(), days, APIkey);
     }
 

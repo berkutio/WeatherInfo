@@ -22,9 +22,12 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.weatherinfo.App;
 import com.weatherinfo.R;
 import com.weatherinfo.databinding.ActivityMvvmweatherBinding;
 import com.weatherinfo.di.Dag2Components;
+import com.weatherinfo.location.ModuleGoogleApiClient;
+import com.weatherinfo.location.ModuleLocationPendingResult;
 import com.weatherinfo.utils.PermissionsUtils;
 import com.weatherinfo.utils.rx.ApplicationProvider;
 
@@ -33,7 +36,7 @@ import java.util.Observer;
 
 import javax.inject.Inject;
 
-public class WeatherActivity extends AppCompatActivity implements
+public class WeatherActivity extends BaseActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
@@ -51,15 +54,15 @@ public class WeatherActivity extends AppCompatActivity implements
     PendingResult<LocationSettingsResult> mResult;
 
 
-    private ActivityMvvmweatherBinding weatherBinding;
+    //private ActivityMvvmweatherBinding weatherBinding;
     private ViewModelWeatherActivity viewModelWeatherActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        weatherBinding = DataBindingUtil.setContentView(this, R.layout.activity_mvvmweather);
-        viewModelWeatherActivity = new ViewModelWeatherActivity(this, new ApplicationProvider());
-        weatherBinding.setVmWeather(viewModelWeatherActivity);
+        //weatherBinding = DataBindingUtil.setContentView(this, R.layout.activity_mvvmweather);
+        //viewModelWeatherActivity = new ViewModelWeatherActivity(this, new ApplicationProvider());
+        //weatherBinding.setVmWeather(viewModelWeatherActivity);
         checkPermissions();
     }
 
@@ -129,7 +132,8 @@ public class WeatherActivity extends AppCompatActivity implements
     @Override
     public void onLocationChanged(Location location) {
         mGoogleApiClient.disconnect();
-        viewModelWeatherActivity.onObtainLocation(location);
+        //viewModelWeatherActivity.onObtainLocation(location);
+        Toast.makeText(this, location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -160,7 +164,8 @@ public class WeatherActivity extends AppCompatActivity implements
     }
 
     private void locationInit() {
-        Dag2Components.getComponentWeatherActivity(this, this, this).injectWeatherActivity(this);
+        //Dag2Components.getComponentWeatherActivity(this, this, this).injectWeatherActivity(this);
+        ((App) getApplicationContext()).getComponentApp().getComponentLocation(new ModuleGoogleApiClient(this, this), new ModuleLocationPendingResult(this)).injectWeatherActivity(this);
         mGoogleApiClient.connect();
     }
 

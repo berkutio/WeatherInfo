@@ -83,7 +83,7 @@ public class ServiceConnectionFacory {
     }
 
     private static Cache getCache(){
-        File cacheFile = new File(App.getAppContext().getCacheDir(), "http");
+        File cacheFile = new File(App.getApp().getApplicationContext().getCacheDir(), "http");
         return new Cache(cacheFile, CACHE_FILE_SIZE);
     }
 

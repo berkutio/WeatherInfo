@@ -21,7 +21,7 @@ public class PermissionsUtils {
 
 
     public static boolean isPermissionGranted(Permissions permission) {
-        int permissionCheck = ActivityCompat.checkSelfPermission(App.getAppContext(), permission.getDesc());
+        int permissionCheck = ActivityCompat.checkSelfPermission(App.getApp(), permission.getDesc());
         return permissionCheck == PackageManager.PERMISSION_GRANTED;
     }
 
