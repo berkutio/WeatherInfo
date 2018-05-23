@@ -6,7 +6,7 @@
         <import type="com.weatherinfo.utils.Universal"/>
         <variable
             name="forecast"
-            type="com.weatherinfo.model.DataBindingForecastData"/>
+            type="com.weatherinfo.model.ForecastData"/>
     </data>
 
     <LinearLayout
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp"
-                    app:imageResource = "@{forecast.getWeatherDescription()}"
+                    app:imageResource = "@{forecast.getWeather()[0].getDescription()}"
                     tools:src="@drawable/ic_snow"/>
 
             </LinearLayout>
@@ -84,7 +84,7 @@
                     android:marqueeRepeatLimit="marquee_forever"
                     android:maxLength="25"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@{forecast.getWeatherDescription()}"
+                    android:text="@{forecast.getWeather()[0].getDescription()}"
                     tools:text="general_description" />
 
                 <LinearLayout

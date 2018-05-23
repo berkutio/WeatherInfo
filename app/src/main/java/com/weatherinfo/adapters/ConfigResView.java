@@ -5,7 +5,6 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
-import com.weatherinfo.BR;
 
 public class ConfigResView extends BaseObservable {
 
@@ -21,7 +20,7 @@ public class ConfigResView extends BaseObservable {
 
     public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
         this.layoutManager = layoutManager;
-        notifyPropertyChanged(BR.layoutManager);
+        //notifyPropertyChanged(BR.layoutManager);
     }
 
     @Bindable
@@ -31,7 +30,7 @@ public class ConfigResView extends BaseObservable {
 
     public void setItemAnimator(RecyclerView.ItemAnimator itemAnimator) {
         this.itemAnimator = itemAnimator;
-        notifyPropertyChanged(BR.itemAnimator);
+        //notifyPropertyChanged(BR.itemAnimator);
     }
 
     @Bindable
@@ -41,7 +40,7 @@ public class ConfigResView extends BaseObservable {
 
     public void setAdapter(RecyclerView.Adapter adapter) {
         this.adapter = adapter;
-        notifyPropertyChanged(BR.adapter);
+        //notifyPropertyChanged(BR.adapter);
     }
 
     @BindingAdapter("app:configuration")

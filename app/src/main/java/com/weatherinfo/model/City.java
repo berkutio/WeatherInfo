@@ -1,8 +1,5 @@
 package com.weatherinfo.model;
 
-/**
- * Created by user on 24.04.17.
- */
 
 public class City {
 

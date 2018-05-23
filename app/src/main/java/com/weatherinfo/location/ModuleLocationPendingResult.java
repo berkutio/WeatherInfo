@@ -9,10 +9,6 @@ import com.google.android.gms.location.LocationSettingsResult;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by user on 07.05.17.
- */
-
 @Module
 public class ModuleLocationPendingResult {
 

@@ -1,5 +1,6 @@
 package com.weatherinfo.utils;
 
+@Deprecated
 public class Constants {
 
     public static final String WEATHER_API_KEY = "85963bbe0766059b9bcdc77bcabb0b99";

@@ -1,5 +1,7 @@
 package com.weatherinfo.activities.weatheractivity;
 
+import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -7,8 +9,11 @@ import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -22,14 +27,14 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.weatherinfo.App;
 import com.weatherinfo.R;
+import com.weatherinfo.activities.weatheractivity.config.FactoryViewModelWeather;
+import com.weatherinfo.activities.weatheractivity.viewmodel.ViewModelWeather;
+import com.weatherinfo.adapters.WeatherAdapter;
 import com.weatherinfo.databinding.ActivityMvvmweatherBinding;
-import com.weatherinfo.di.Dag2Components;
 import com.weatherinfo.location.ModuleGoogleApiClient;
 import com.weatherinfo.location.ModuleLocationPendingResult;
 import com.weatherinfo.utils.PermissionsUtils;
-import com.weatherinfo.utils.rx.ApplicationProvider;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -54,22 +59,44 @@ public class WeatherActivity extends BaseActivity implements
     PendingResult<LocationSettingsResult> mResult;
 
 
-    //private ActivityMvvmweatherBinding weatherBinding;
-    private ViewModelWeatherActivity viewModelWeatherActivity;
+    private FactoryViewModelWeather factoryViewModelWeather;
+
+    private ActivityMvvmweatherBinding weatherBinding;
+    private ViewModelWeather viewModelWeather;
+    private LinearLayout mLLdataLayout;
+    private WeatherAdapter mWeatherAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //weatherBinding = DataBindingUtil.setContentView(this, R.layout.activity_mvvmweather);
-        //viewModelWeatherActivity = new ViewModelWeatherActivity(this, new ApplicationProvider());
-        //weatherBinding.setVmWeather(viewModelWeatherActivity);
-        checkPermissions();
+        viewModelWeather = ViewModelProviders.of(this, factoryViewModelWeather).get(ViewModelWeather.class);
+        weatherBinding = DataBindingUtil.setContentView(this, R.layout.activity_mvvmweather);
+        initViews();
+        bindViews();
+        if(viewModelWeather.getLocation() == null){
+            launchGps();
+        }
+    }
+
+    private void initViews(){
+        mLLdataLayout = weatherBinding.getRoot().findViewById(R.id.dataLayout);
+        mWeatherAdapter = new WeatherAdapter();
+        RecyclerView recyclerView = weatherBinding.getRoot().findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(mWeatherAdapter);
+    }
+
+    private void bindViews() {
+        viewModelWeather.getWeatherResponseData().observe(this, weatherResponse -> {
+            mWeatherAdapter.updateAdapter(weatherResponse.getList());
+            mLLdataLayout.setVisibility(View.VISIBLE);
+            weatherBinding.setResponse(weatherResponse);
+        });
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        viewModelWeatherActivity.onDestroy();
+    protected void injectObjects() {
+        factoryViewModelWeather = getComponentApplication().getComponentNetwork().getComponentViewModelWeather().gFactoryViewModelWeather();
     }
 
     @Override
@@ -91,7 +118,7 @@ public class WeatherActivity extends BaseActivity implements
                 }
                 break;
             case REQUEST_CODE_PERMISSIONS:
-                checkPermissions();
+                launchGps();
                 break;
         }
     }
@@ -132,7 +159,7 @@ public class WeatherActivity extends BaseActivity implements
     @Override
     public void onLocationChanged(Location location) {
         mGoogleApiClient.disconnect();
-        //viewModelWeatherActivity.onObtainLocation(location);
+        viewModelWeather.onObtainLocation(location);
         Toast.makeText(this, location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
@@ -153,7 +180,7 @@ public class WeatherActivity extends BaseActivity implements
         }
     }
 
-    private void checkPermissions() {
+    private void launchGps() {
         if (PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_COARSE_LOCATION)
                 && PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_FINE_LOCATION)) {
             locationInit();
@@ -164,11 +191,13 @@ public class WeatherActivity extends BaseActivity implements
     }
 
     private void locationInit() {
-        //Dag2Components.getComponentWeatherActivity(this, this, this).injectWeatherActivity(this);
-        ((App) getApplicationContext()).getComponentApp().getComponentLocation(new ModuleGoogleApiClient(this, this), new ModuleLocationPendingResult(this)).injectWeatherActivity(this);
+        getComponentApplication()
+                .getComponentLocation(new ModuleGoogleApiClient(this, this), new ModuleLocationPendingResult(this))
+                .injectWeatherActivity(this);
         mGoogleApiClient.connect();
     }
 
+    @SuppressLint("MissingPermission")
     private void startLocationUpdates() {
         if (PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_COARSE_LOCATION)
                 && PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_FINE_LOCATION)) {

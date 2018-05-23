@@ -1,9 +1,5 @@
 package com.weatherinfo.model;
 
-/**
- * Created by user on 25.04.17.
- */
-
 public class WeatherDescription {
 
     private long id;

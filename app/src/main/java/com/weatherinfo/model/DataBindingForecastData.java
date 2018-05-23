@@ -1,5 +1,6 @@
 package com.weatherinfo.model;
 
+@Deprecated
 public class DataBindingForecastData {
 
     private ForecastData forecastData;

@@ -4,8 +4,8 @@
     <data>
         <import type="com.weatherinfo.utils.Universal"/>
         <variable
-            name="vmWeather"
-            type="com.weatherinfo.activities.weatheractivity.ViewModelWeatherActivity"/>
+            name="response"
+            type="com.weatherinfo.model.WeatherResponse"/>
     </data>
 
     <LinearLayout
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                android:title="@{vmWeather.observableWeatherResponse.city.name == null ? (@string/app_name) : (@string/app_name + ' ' + vmWeather.observableWeatherResponse.city.name)}"
+                android:title="@{response.city.name == null ? (@string/app_name) : (@string/app_name + ' ' + response.city.name)}"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.AppBarLayout>
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="@{vmWeather.observableVisibility}">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    app:imageResource = "@{vmWeather.observableForecastDataToday.getWeatherDescription()}"
+                    app:imageResource = "@{response.firstDay.getWeather()[0].getDescription()}"
                     tools:src="@drawable/ic_snow"/>
 
 
@@ -103,9 +103,9 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:maxLength="25"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@{Universal.formatData(vmWeather.observableForecastDataToday.dt)}"
+                        android:text="@{Universal.formatData(response.firstDay.dt)}"
                         tools:text="02/15/2016" />
-                    
+
                     <TextView
                         android:id="@+id/general_description_today"
                         android:layout_width="wrap_content"
@@ -115,7 +115,7 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:maxLength="25"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@{vmWeather.observableForecastDataToday.getWeatherDescription()}"
+                        android:text="@{response.firstDay.getWeather()[0].getDescription()}"
                         tools:text="general_description_today" />
 
                     <LinearLayout
@@ -142,7 +142,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="@{Universal.convertToCelicies(vmWeather.observableForecastDataToday.temp.max)}"
+                            android:text="@{Universal.convertToCelicies(response.firstDay.temp.max)}"
                             tools:text="+23" />
 
                         <View
@@ -169,7 +169,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="@{String.valueOf(vmWeather.observableForecastDataToday.pressure)}"
+                            android:text="@{String.valueOf(response.firstDay.pressure)}"
                             tools:text="1541.5" />
 
 
@@ -200,7 +200,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="16dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="@{String.valueOf(vmWeather.observableForecastDataToday.humidity)}"
+                            android:text="@{String.valueOf(response.firstDay.humidity)}"
                             tools:text="78" />
 
                         <View
@@ -228,7 +228,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="@{String.valueOf(vmWeather.observableForecastDataToday.speed)}"
+                            android:text="@{String.valueOf(response.firstDay.speed)}"
                             tools:text="6.8" />
 
 
@@ -256,8 +256,7 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                app:configuration="@{vmWeather.configResView}"/>
+                android:scrollbars="vertical"/>
 
         </LinearLayout>
 

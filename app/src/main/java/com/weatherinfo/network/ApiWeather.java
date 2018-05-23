@@ -7,10 +7,6 @@ import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-/**
- * Created by user on 23.04.17.
- */
-
 public interface ApiWeather {
 
     @GET("forecast/daily?")

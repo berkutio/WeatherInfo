@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 public class ApiWeatherImplTest {
 
-    private WeatherServiceImpl service;
+    private ServiceWeather service;
     private Location location;
 
     @Before
@@ -31,7 +31,7 @@ public class ApiWeatherImplTest {
         location = mock(Location.class);
         when(location.getLatitude()).thenReturn(46.9534361);
         when(location.getLongitude()).thenReturn(31.9381652);
-        service = new WeatherServiceImpl(context, Constants.WEATHER_URI, Constants.WEATHER_API_KEY);
+        //service = new ServiceWeather(context, Constants.WEATHER_URI, Constants.WEATHER_API_KEY);
     }
 
     @Test
@@ -41,10 +41,10 @@ public class ApiWeatherImplTest {
         System.out.println("Weather response + " + response);
         City city = response.getCity();
         assertNotNull(city);
-        ForecastData[] list = response.getList();
+        List<ForecastData> list = response.getList();
         assertNotNull(list);
-        assertEquals(6, list.length);
-        ForecastData forecastData = list[0];
+        assertEquals(6, list.size());
+        ForecastData forecastData = list.get(0);
         assertNotNull(forecastData);
         WeatherDescription[] descriptions = forecastData.getWeather();
         assertNotNull(descriptions);
