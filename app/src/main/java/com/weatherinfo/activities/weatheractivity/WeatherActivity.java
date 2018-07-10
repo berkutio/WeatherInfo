@@ -34,6 +34,9 @@ import com.weatherinfo.adapters.WeatherAdapter;
 import com.weatherinfo.databinding.ActivityMvvmweatherBinding;
 import com.weatherinfo.location.ModuleGoogleApiClient;
 import com.weatherinfo.location.ModuleLocationPendingResult;
+import com.weatherinfo.model.BaseLiveData;
+import com.weatherinfo.model.LiveDataResponse;
+import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.utils.PermissionsUtils;
 
 import java.util.Observable;
@@ -73,12 +76,12 @@ public class WeatherActivity extends BaseActivity implements
         weatherBinding = DataBindingUtil.setContentView(this, R.layout.activity_mvvmweather);
         initViews();
         bindViews();
-        if(viewModelWeather.getLocation() == null){
+        if (viewModelWeather.getLocation() == null) {
             launchGps();
         }
     }
 
-    private void initViews(){
+    private void initViews() {
         mLLdataLayout = weatherBinding.getRoot().findViewById(R.id.dataLayout);
         mWeatherAdapter = new WeatherAdapter();
         RecyclerView recyclerView = weatherBinding.getRoot().findViewById(R.id.recycler_view);
@@ -87,10 +90,20 @@ public class WeatherActivity extends BaseActivity implements
     }
 
     private void bindViews() {
-        viewModelWeather.getWeatherResponseData().observe(this, weatherResponse -> {
-            mWeatherAdapter.updateAdapter(weatherResponse.getList());
-            mLLdataLayout.setVisibility(View.VISIBLE);
-            weatherBinding.setResponse(weatherResponse);
+        viewModelWeather.getmWeatherResponseData().observe(this, new BaseLiveData.OnEventListener<WeatherResponse>() {
+            @Override
+            public void onResult(LiveDataResponse<WeatherResponse> response) {
+                if (response.getResponse() != null) {
+                    mWeatherAdapter.updateAdapter(response.getResponse().getList());
+                    mLLdataLayout.setVisibility(View.VISIBLE);
+                    weatherBinding.setResponse(response.getResponse());
+                }
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+                Toast.makeText(WeatherActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+            }
         });
     }
 
