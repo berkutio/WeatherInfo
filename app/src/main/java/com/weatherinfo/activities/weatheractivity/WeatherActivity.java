@@ -67,6 +67,8 @@ public class WeatherActivity extends BaseActivity implements
     private ActivityMvvmweatherBinding weatherBinding;
     private ViewModelWeather viewModelWeather;
     private LinearLayout mLLdataLayout;
+    private LinearLayout mLLloading;
+    private LinearLayout mLLNoConnection;
     private WeatherAdapter mWeatherAdapter;
 
     @Override
@@ -83,6 +85,8 @@ public class WeatherActivity extends BaseActivity implements
 
     private void initViews() {
         mLLdataLayout = weatherBinding.getRoot().findViewById(R.id.dataLayout);
+        mLLloading = weatherBinding.getRoot().findViewById(R.id.linear_layout_loading);
+        mLLNoConnection = weatherBinding.getRoot().findViewById(R.id.linear_layout_no_connection);
         mWeatherAdapter = new WeatherAdapter();
         RecyclerView recyclerView = weatherBinding.getRoot().findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -96,6 +100,7 @@ public class WeatherActivity extends BaseActivity implements
                 if (response.getResponse() != null) {
                     mWeatherAdapter.updateAdapter(response.getResponse().getList());
                     mLLdataLayout.setVisibility(View.VISIBLE);
+                    mLLloading.setVisibility(View.GONE);
                     weatherBinding.setResponse(response.getResponse());
                 }
             }
@@ -103,6 +108,11 @@ public class WeatherActivity extends BaseActivity implements
             @Override
             public void onError(String errorMsg) {
                 Toast.makeText(WeatherActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                if(mWeatherAdapter.getItemCount() == 0){
+                    mLLdataLayout.setVisibility(View.GONE);
+                    mLLloading.setVisibility(View.GONE);
+                    mLLNoConnection.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -173,7 +183,7 @@ public class WeatherActivity extends BaseActivity implements
     public void onLocationChanged(Location location) {
         mGoogleApiClient.disconnect();
         viewModelWeather.onObtainLocation(location);
-        Toast.makeText(this, location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -214,7 +224,6 @@ public class WeatherActivity extends BaseActivity implements
     private void startLocationUpdates() {
         if (PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_COARSE_LOCATION)
                 && PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_FINE_LOCATION)) {
-            Toast.makeText(this, getString(R.string.weather_response_obtaining), Toast.LENGTH_LONG).show();
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiClient,
                     mLocationRequest,
