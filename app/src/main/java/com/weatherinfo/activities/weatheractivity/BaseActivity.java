@@ -18,7 +18,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void injectObjects();
 
-    protected ComponentApplication getComponentApplication(){
+    protected ComponentApplication getComponentApplication() {
         return ((App) getApplication()).getComponentApp();
     }
 

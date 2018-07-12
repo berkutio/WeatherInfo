@@ -25,12 +25,12 @@ public class PermissionsUtils {
         return permissionCheck == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static void requestPermission(Activity context, Permissions[] permissionses, int requestCode){
+    public static void requestPermission(Activity context, Permissions[] permissionses, int requestCode) {
         ActivityCompat.requestPermissions(context,
                 convertPermissionsToString(permissionses), requestCode);
     }
 
-    private static String[] convertPermissionsToString(Permissions[] permissionses){
+    private static String[] convertPermissionsToString(Permissions[] permissionses) {
         String[] permissions = new String[permissionses.length];
         for (int i = 0; i < permissions.length; i++) {
             permissions[i] = permissionses[i].getDesc();
@@ -64,14 +64,14 @@ public class PermissionsUtils {
         dialog.show();
     }
 
-    private static void openSettings(Activity context, int requestCode){
+    private static void openSettings(Activity context, int requestCode) {
         Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.parse("package:" + context.getPackageName()));
         context.startActivityForResult(intent, requestCode);
     }
 
-    public enum Permissions{
+    public enum Permissions {
         ACCESS_COARSE_LOCATION(Manifest.permission.ACCESS_COARSE_LOCATION),
         ACCESS_FINE_LOCATION(Manifest.permission.ACCESS_FINE_LOCATION);
 

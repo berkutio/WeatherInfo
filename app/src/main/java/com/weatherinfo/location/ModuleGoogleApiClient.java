@@ -24,7 +24,7 @@ public class ModuleGoogleApiClient {
 
     @Provides
     @ScopeLocation
-    public GoogleApiClient getGoogleApiClient(Application application){
+    public GoogleApiClient getGoogleApiClient(Application application) {
         return new GoogleApiClient.Builder(application)
                 .addConnectionCallbacks(connectionCallback)
                 .addOnConnectionFailedListener(connectionFailedListener)

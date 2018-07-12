@@ -13,7 +13,7 @@ public class ModuleLocation {
 
     @Provides
     @ScopeLocation
-    public LocationRequest getLocationRequest(){
+    public LocationRequest getLocationRequest() {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(2000);
         locationRequest.setFastestInterval(1000);
@@ -23,7 +23,7 @@ public class ModuleLocation {
 
     @Provides
     @ScopeLocation
-    public LocationSettingsRequest getLocationSettingsRequest(LocationRequest locationRequest){
+    public LocationSettingsRequest getLocationSettingsRequest(LocationRequest locationRequest) {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(locationRequest);
         builder.setAlwaysShow(true);

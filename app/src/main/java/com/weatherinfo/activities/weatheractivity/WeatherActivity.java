@@ -62,55 +62,55 @@ public class WeatherActivity extends BaseActivity implements
     PendingResult<LocationSettingsResult> mResult;
 
 
-    private FactoryViewModelWeather factoryViewModelWeather;
+    private FactoryViewModelWeather mFactoryViewModelWeather;
 
-    private ActivityMvvmweatherBinding weatherBinding;
-    private ViewModelWeather viewModelWeather;
-    private LinearLayout mLLdataLayout;
-    private LinearLayout mLLloading;
+    private ActivityMvvmweatherBinding mWeatherBinding;
+    private ViewModelWeather mViewModelWeather;
+    private LinearLayout mLLDataLayout;
+    private LinearLayout mLLLoading;
     private LinearLayout mLLNoConnection;
     private WeatherAdapter mWeatherAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModelWeather = ViewModelProviders.of(this, factoryViewModelWeather).get(ViewModelWeather.class);
-        weatherBinding = DataBindingUtil.setContentView(this, R.layout.activity_mvvmweather);
+        mViewModelWeather = ViewModelProviders.of(this, mFactoryViewModelWeather).get(ViewModelWeather.class);
+        mWeatherBinding = DataBindingUtil.setContentView(this, R.layout.activity_mvvmweather);
         initViews();
         bindViews();
-        if (viewModelWeather.getLocation() == null) {
+        if (mViewModelWeather.getLocation() == null) {
             launchGps();
         }
     }
 
     private void initViews() {
-        mLLdataLayout = weatherBinding.getRoot().findViewById(R.id.dataLayout);
-        mLLloading = weatherBinding.getRoot().findViewById(R.id.linear_layout_loading);
-        mLLNoConnection = weatherBinding.getRoot().findViewById(R.id.linear_layout_no_connection);
+        mLLDataLayout = mWeatherBinding.getRoot().findViewById(R.id.dataLayout);
+        mLLLoading = mWeatherBinding.getRoot().findViewById(R.id.linear_layout_loading);
+        mLLNoConnection = mWeatherBinding.getRoot().findViewById(R.id.linear_layout_no_connection);
         mWeatherAdapter = new WeatherAdapter();
-        RecyclerView recyclerView = weatherBinding.getRoot().findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = mWeatherBinding.getRoot().findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mWeatherAdapter);
     }
 
     private void bindViews() {
-        viewModelWeather.getmWeatherResponseData().observe(this, new BaseLiveData.OnEventListener<WeatherResponse>() {
+        mViewModelWeather.getWeatherResponseData().observe(this, new BaseLiveData.OnEventListener<WeatherResponse>() {
             @Override
             public void onResult(LiveDataResponse<WeatherResponse> response) {
                 if (response.getResponse() != null) {
                     mWeatherAdapter.updateAdapter(response.getResponse().getList());
-                    mLLdataLayout.setVisibility(View.VISIBLE);
-                    mLLloading.setVisibility(View.GONE);
-                    weatherBinding.setResponse(response.getResponse());
+                    mLLDataLayout.setVisibility(View.VISIBLE);
+                    mLLLoading.setVisibility(View.GONE);
+                    mWeatherBinding.setResponse(response.getResponse());
                 }
             }
 
             @Override
             public void onError(String errorMsg) {
                 Toast.makeText(WeatherActivity.this, errorMsg, Toast.LENGTH_LONG).show();
-                if(mWeatherAdapter.getItemCount() == 0){
-                    mLLdataLayout.setVisibility(View.GONE);
-                    mLLloading.setVisibility(View.GONE);
+                if (mWeatherAdapter.getItemCount() == 0) {
+                    mLLDataLayout.setVisibility(View.GONE);
+                    mLLLoading.setVisibility(View.GONE);
                     mLLNoConnection.setVisibility(View.VISIBLE);
                 }
             }
@@ -119,7 +119,7 @@ public class WeatherActivity extends BaseActivity implements
 
     @Override
     protected void injectObjects() {
-        factoryViewModelWeather = getComponentApplication().getComponentNetwork().getComponentViewModelWeather().gFactoryViewModelWeather();
+        mFactoryViewModelWeather = getComponentApplication().getComponentNetwork().getComponentViewModelWeather().gFactoryViewModelWeather();
     }
 
     @Override
@@ -182,8 +182,7 @@ public class WeatherActivity extends BaseActivity implements
     @Override
     public void onLocationChanged(Location location) {
         mGoogleApiClient.disconnect();
-        viewModelWeather.onObtainLocation(location);
-        //Toast.makeText(this, location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_LONG).show();
+        mViewModelWeather.onObtainLocation(location);
     }
 
     @Override

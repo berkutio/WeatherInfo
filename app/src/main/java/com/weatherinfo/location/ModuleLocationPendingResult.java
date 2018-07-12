@@ -6,13 +6,14 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
+
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class ModuleLocationPendingResult {
 
-    ResultCallback<LocationSettingsResult> resultCallback;
+    private ResultCallback<LocationSettingsResult> resultCallback;
 
     public ModuleLocationPendingResult(ResultCallback<LocationSettingsResult> resultCallback) {
         this.resultCallback = resultCallback;
@@ -20,7 +21,7 @@ public class ModuleLocationPendingResult {
 
     @Provides
     @ScopeLocation
-    public PendingResult<LocationSettingsResult> getPendingResult(GoogleApiClient googleApiClient, LocationSettingsRequest settingsRequest){
+    public PendingResult<LocationSettingsResult> getPendingResult(GoogleApiClient googleApiClient, LocationSettingsRequest settingsRequest) {
         PendingResult<LocationSettingsResult> result =
                 LocationServices.SettingsApi.checkLocationSettings(
                         googleApiClient,

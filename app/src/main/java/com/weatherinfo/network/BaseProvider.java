@@ -2,6 +2,7 @@ package com.weatherinfo.network;
 
 
 import android.content.res.Resources;
+
 import com.weatherinfo.R;
 
 public class BaseProvider {
@@ -12,11 +13,11 @@ public class BaseProvider {
         this.resources = resources;
     }
 
-    public String getBaseUrl(){
+    public String getBaseUrl() {
         return resources.getString(R.string.base_url);
     }
 
-    public String getApiKey(){
+    public String getApiKey() {
         return resources.getString(R.string.api_key);
     }
 

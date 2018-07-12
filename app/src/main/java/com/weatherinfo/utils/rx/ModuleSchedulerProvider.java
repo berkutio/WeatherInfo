@@ -12,7 +12,7 @@ public class ModuleSchedulerProvider {
 
     @Provides
     @ScopePresenter
-    public SchedulerProvider getSchedulerProvider(){
+    public SchedulerProvider getSchedulerProvider() {
         return new ApplicationProvider();
     }
 

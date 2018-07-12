@@ -12,7 +12,7 @@ public class ModuleBaseProvider {
 
     @Provides
     @ScopeNetwork
-    public BaseProvider getBaseProvider(Resources resources){
+    public BaseProvider getBaseProvider(Resources resources) {
         return new BaseProvider(resources);
     }
 

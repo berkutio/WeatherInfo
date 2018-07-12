@@ -1,7 +1,5 @@
 package com.weatherinfo.network.config;
 
-
-
 import com.weatherinfo.activities.weatheractivity.config.ComponentViewModelWeather;
 
 import dagger.Subcomponent;

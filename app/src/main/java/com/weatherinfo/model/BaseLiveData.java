@@ -26,11 +26,11 @@ public class BaseLiveData<ResponseType, LifeDataInstance extends LiveDataRespons
         this.mErrorMessageData = mErrorMessageData;
     }
 
-    public void post(LifeDataInstance value){
+    public void post(LifeDataInstance value) {
         mResponseData.postValue(value);
     }
 
-    public void setValue(LifeDataInstance value){
+    public void setValue(LifeDataInstance value) {
         mResponseData.setValue(value);
     }
 
@@ -38,17 +38,18 @@ public class BaseLiveData<ResponseType, LifeDataInstance extends LiveDataRespons
         return mResponseData;
     }
 
-    public LiveData getErrorData(){
+    public LiveData getErrorData() {
         return mErrorMessageData;
     }
 
-    public void observe(LifecycleOwner owner, OnEventListener listener){
+    public void observe(LifecycleOwner owner, OnEventListener listener) {
         mResponseData.observe(owner, listener::onResult);
         mErrorMessageData.observe(owner, listener::onError);
     }
 
     public interface OnEventListener<ResponseType> {
         void onResult(LiveDataResponse<ResponseType> response);
+
         void onError(String errorMsg);
     }
 

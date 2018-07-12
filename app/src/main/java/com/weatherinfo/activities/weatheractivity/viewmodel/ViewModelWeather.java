@@ -9,12 +9,13 @@ import com.weatherinfo.model.LiveDataResponse;
 import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.network.ServiceWeather;
 import com.weatherinfo.utils.rx.SchedulerProvider;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class ViewModelWeather extends ViewModel {
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     private SchedulerProvider mSchedulerProvider;
     private ServiceWeather mServiceWeather;
@@ -34,12 +35,12 @@ public class ViewModelWeather extends ViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        compositeDisposable.clear();
+        mCompositeDisposable.clear();
     }
 
-    public void onObtainLocation(Location location){
+    public void onObtainLocation(Location location) {
         mLocation = location;
-        compositeDisposable.add(mServiceWeather.getListData(location, 6)
+        mCompositeDisposable.add(mServiceWeather.getListData(location, 6)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.mainThread())
                 .subscribeWith(new DisposableSingleObserver<WeatherResponse>() {
@@ -56,7 +57,7 @@ public class ViewModelWeather extends ViewModel {
     }
 
 
-    public BaseLiveData<WeatherResponse, LiveDataResponse<WeatherResponse>> getmWeatherResponseData() {
+    public BaseLiveData<WeatherResponse, LiveDataResponse<WeatherResponse>> getWeatherResponseData() {
         return mWeatherResponseData;
     }
 

@@ -4,7 +4,9 @@ import android.location.Location;
 
 import com.weatherinfo.model.ForecastData;
 import com.weatherinfo.model.WeatherResponse;
+
 import javax.inject.Inject;
+
 import io.reactivex.Single;
 
 public class ServiceWeather {
@@ -18,7 +20,7 @@ public class ServiceWeather {
         this.apiWeather = apiWeather;
     }
 
-    public Single<WeatherResponse> getListData(Location location, int days){
+    public Single<WeatherResponse> getListData(Location location, int days) {
         return apiWeather.getForecast(location.getLatitude(), location.getLongitude(), days, baseProvider.getApiKey())
                 .map(weatherResponse -> {
                     ForecastData firstDay = weatherResponse.getList().remove(0);

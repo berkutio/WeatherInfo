@@ -38,7 +38,7 @@ public class ModuleNetwork {
 
     @Provides
     @ScopeNetwork
-    public Retrofit getRetrofitInstance(BaseProvider baseProvider, OkHttpClient client, Gson gson){
+    public Retrofit getRetrofitInstance(BaseProvider baseProvider, OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl(baseProvider.getBaseUrl())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -49,7 +49,7 @@ public class ModuleNetwork {
 
     @Provides
     @ScopeNetwork
-    public OkHttpClient getOkHttpClient(Interceptor cacheInterceptor, Cache cache){
+    public OkHttpClient getOkHttpClient(Interceptor cacheInterceptor, Cache cache) {
         return new OkHttpClient.Builder()
                 .addInterceptor(cacheInterceptor)
                 .connectTimeout(CONNECTION_TIME_OUT_MS, TimeUnit.SECONDS)
@@ -62,11 +62,11 @@ public class ModuleNetwork {
 
     @Provides
     @ScopeNetwork
-    public Interceptor getCacheInterceptor(){
+    public Interceptor getCacheInterceptor() {
         return chain -> {
             Response response = chain.proceed(chain.request());
             CacheControl cacheControl = new CacheControl.Builder()
-                    .maxAge(STALE_MINUTES, TimeUnit.MINUTES )
+                    .maxAge(STALE_MINUTES, TimeUnit.MINUTES)
                     .build();
             return response.newBuilder()
                     .header(CACHE_CONTROL, cacheControl.toString())
@@ -77,7 +77,7 @@ public class ModuleNetwork {
 
     @Provides
     @ScopeNetwork
-    public Gson getGson(){
+    public Gson getGson() {
         GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(Date.class, new DateAsLongAdapter());
         return gsonBuilder.create();

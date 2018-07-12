@@ -43,11 +43,11 @@ public class WeatherResponse {
         this.cnt = cnt;
     }
 
-    public List<ForecastData>  getList() {
+    public List<ForecastData> getList() {
         return list;
     }
 
-    public void setList(List<ForecastData>  list) {
+    public void setList(List<ForecastData> list) {
         this.list = list;
     }
 
