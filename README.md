@@ -5,8 +5,8 @@ Opensource application for obtaining weather forecast based on device GPS coordi
 </p>
 
 Brief description:
-# jetpack_clean_architecture barnch
-<a href="https://github.com/berkutio/WeatherInfo/tree/jetpack_clean_architecture"># jetpack_clean_architecture barnch</a>
+# jetpack_clean_architecture branch
+<a href="https://github.com/berkutio/WeatherInfo/tree/jetpack_clean_architecture"># jetpack_clean_architecture branch</a>
 Solution for generating one-time error messages while using live data and Google architecture components
 
 # master branch:
