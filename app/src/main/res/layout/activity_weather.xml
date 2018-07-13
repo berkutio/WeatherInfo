@@ -27,211 +27,172 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="invisible">
+        android:visibility="gone">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="13dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="13dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/today"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="10dp" />
-
-            <ImageView
-                android:id="@+id/im_description_icon"
-                android:layout_marginRight="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                tools:src="@drawable/ic_snow"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="8dp">
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/Black" />
-
-
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="2.5dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="2.5dp"
-                android:orientation="vertical">
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/title_weather_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/today"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/data_today"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:drawableLeft="@drawable/ic_calendar"
-                    android:lines="1"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLength="25"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:text="02/15/2016" />
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/title_weather_today"
+                    tools:text="12 Jul" />
 
                 <TextView
                     android:id="@+id/general_description_today"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="8dp"
+                    card_view:layout_constraintBaseline_toBaselineOf="@+id/data_today"
+                    card_view:layout_constraintStart_toEndOf="@+id/data_today"
+                    tools:text="sky is clear" />
+
+                <TextView
+                    android:id="@+id/temperature_val_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/data_today"
+                    tools:text="+35" />
+
+                <ImageView
+                    android:id="@+id/im_description_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    card_view:layout_constraintBottom_toTopOf="@+id/wind_speed_title"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.937"
+                    card_view:layout_constraintStart_toEndOf="@+id/temperature_title"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintVertical_bias="0.678"
+                    card_view:srcCompat="@drawable/googleg_standard_color_18" />
+
+                <TextView
+                    android:id="@+id/temperature_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/degrees_celcies"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    card_view:layout_constraintBaseline_toBaselineOf="@+id/temperature_val_today"
+                    card_view:layout_constraintStart_toEndOf="@+id/temperature_val_today" />
+
+                <TextView
+                    android:id="@+id/title_pressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:drawableLeft="@drawable/ic_pressure"
+                    android:gravity="center"
                     android:lines="1"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLength="25"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:text="general_description_today" />
+                    android:maxLength="20"
+                    android:text="@string/pressure"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/temperature_val_today" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/pressure_val_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    card_view:layout_constraintBaseline_toBaselineOf="@+id/title_pressure"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintStart_toEndOf="@+id/title_pressure"
+                    tools:text="1100" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="2dp"
-                        android:lines="1"
-                        android:maxLength="20"
-                        android:text="@string/temperature"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                <TextView
+                    android:id="@+id/humidity_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:drawableStart="@drawable/ic_humidity"
+                    android:gravity="center"
+                    android:text="@string/humidity"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintHorizontal_chainStyle="spread_inside"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/title_pressure"
+                    card_view:layout_constraintVertical_bias="0.0" />
 
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="10dp" />
+                <TextView
+                    android:id="@+id/humidity_val_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    card_view:layout_constraintBaseline_toBaselineOf="@+id/humidity_title"
+                    card_view:layout_constraintEnd_toStartOf="@+id/wind_speed_title"
+                    card_view:layout_constraintHorizontal_bias="0.5"
+                    card_view:layout_constraintHorizontal_chainStyle="spread_inside"
+                    card_view:layout_constraintStart_toEndOf="@+id/humidity_title"
+                    tools:text="70" />
 
-                    <TextView
-                        android:id="@+id/temperature_val_today"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="16dp"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        tools:text="+23" />
+                <TextView
+                    android:id="@+id/wind_speed_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:drawableStart="@drawable/ic_wind"
+                    android:gravity="center"
+                    android:text="@string/wind_speed"
+                    card_view:layout_constraintBaseline_toBaselineOf="@+id/humidity_val_today"
+                    card_view:layout_constraintEnd_toStartOf="@+id/wind_speed_val_today"
+                    card_view:layout_constraintHorizontal_bias="0.5"
+                    card_view:layout_constraintStart_toEndOf="@+id/humidity_val_today" />
 
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:drawableLeft="@drawable/ic_pressure"
-                        android:lines="1"
-                        android:maxLength="20"
-                        android:text="@string/pressure"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="10dp" />
-
-                    <TextView
-                        android:id="@+id/pressure_val_today"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        tools:text="1541.5" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:drawableLeft="@drawable/ic_humidity"
-                        android:lines="1"
-                        android:maxLength="20"
-                        android:text="@string/humidity"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="10dp" />
-
-                    <TextView
-                        android:id="@+id/humidity_val_today"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="16dp"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        tools:text="78" />
-
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:drawableLeft="@drawable/ic_wind"
-                        android:lines="1"
-                        android:maxLength="20"
-                        android:text="@string/wind_speed"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="10dp" />
-
-                    <TextView
-                        android:id="@+id/wind_speed_val_today"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        tools:text="6.8" />
+                <TextView
+                    android:id="@+id/wind_speed_val_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    card_view:layout_constraintBaseline_toBaselineOf="@+id/wind_speed_title"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    tools:text="1.6" />
 
 
-                </LinearLayout>
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/Black" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="13dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="13dp"
-            android:text="@string/nearest_days"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold" />
+        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -239,6 +200,63 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="108dp"
+            android:text="@string/data_loading"
+            android:textSize="22sp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="68dp"
+            android:layout_height="69dp"
+            android:layout_marginBottom="108dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_no_connection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:text="@string/error_no_connection"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="192dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:srcCompat="@android:drawable/presence_offline" />
     </LinearLayout>
 
 </LinearLayout>

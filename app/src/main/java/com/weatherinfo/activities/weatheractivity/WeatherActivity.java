@@ -34,8 +34,6 @@ import com.weatherinfo.model.ForecastData;
 import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.utils.PermissionsUtils;
 import com.weatherinfo.utils.Universal;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,8 +49,13 @@ public class WeatherActivity extends AppCompatActivity implements
 
     public static final int REQUEST_CODE_PERMISSIONS = 101;
 
+
     @BindView(R.id.dataLayout)
-    LinearLayout dataLayout;
+    LinearLayout mLLDataLayout;
+    @BindView(R.id.linear_layout_loading)
+    LinearLayout mLLLoading;
+    @BindView(R.id.linear_layout_no_connection)
+    LinearLayout mLLNoConnection;
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -165,9 +168,16 @@ public class WeatherActivity extends AppCompatActivity implements
             list.addAll(Arrays.asList(response.getList()));
             list.remove(0);
             settingList(list);
-            dataLayout.setVisibility(View.VISIBLE);
+            mLLDataLayout.setVisibility(View.VISIBLE);
+            mLLLoading.setVisibility(View.GONE);
         } else {
             Toast.makeText(this, getString(R.string.error_weather_response), Toast.LENGTH_LONG).show();
+        }
+
+        if(mWeatherAdapter.getItemCount() == 0) {
+            mLLDataLayout.setVisibility(View.GONE);
+            mLLLoading.setVisibility(View.GONE);
+            mLLNoConnection.setVisibility(View.VISIBLE);
         }
     }
 

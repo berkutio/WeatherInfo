@@ -20,7 +20,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView data;
-        public TextView general;
         public TextView temperature;
         public TextView pressure;
         public TextView humidity;
@@ -31,7 +30,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
             super(v);
             imageView = (ImageView)v.findViewById(R.id.im_description);
             data = (TextView)v.findViewById(R.id.data);
-            general = (TextView)v.findViewById(R.id.general_description);
             temperature = (TextView)v.findViewById(R.id.temperature_val);
             pressure = (TextView)v.findViewById(R.id.pressure_val);
             humidity = (TextView)v.findViewById(R.id.humidity_val);
@@ -58,7 +56,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         ForecastData forecastData = list.get(position);
         holder.imageView.setImageResource(Universal.getWeatherResource(forecastData.getWeather()[0].getDescription()));
         holder.data.setText(Universal.formatData(forecastData.getDt()));
-        holder.general.setText(forecastData.getWeather()[0].getDescription());
         holder.temperature.setText(Universal.convertToCelicies(forecastData.getTemp().getMin()));
         holder.pressure.setText(String.valueOf(forecastData.getPressure()));
         holder.humidity.setText(String.valueOf(forecastData.getHumidity()));
