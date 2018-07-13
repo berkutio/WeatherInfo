@@ -15,8 +15,8 @@ public class ModuleFactoryViewModelWeather {
 
     @Provides
     @ScopePresenter
-    public FactoryViewModelWeather getFactoryViewModelWeather(Application application, SchedulerProvider schedulerProvider, ServiceWeather serviceWeather) {
-        return FactoryViewModelWeather.getInstance(application, schedulerProvider, serviceWeather);
+    public FactoryViewModelWeather getFactoryViewModelWeather(SchedulerProvider schedulerProvider, ServiceWeather serviceWeather) {
+        return FactoryViewModelWeather.getInstance(schedulerProvider, serviceWeather);
     }
 
 

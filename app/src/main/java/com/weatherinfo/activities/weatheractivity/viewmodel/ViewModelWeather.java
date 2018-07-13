@@ -1,6 +1,5 @@
 package com.weatherinfo.activities.weatheractivity.viewmodel;
 
-import android.app.Application;
 import android.arch.lifecycle.ViewModel;
 import android.location.Location;
 
@@ -19,16 +18,14 @@ public class ViewModelWeather extends ViewModel {
 
     private SchedulerProvider mSchedulerProvider;
     private ServiceWeather mServiceWeather;
-    private Application mApplication;
 
     private Location mLocation;
 
     private BaseLiveData<WeatherResponse, LiveDataResponse<WeatherResponse>> mWeatherResponseData;
 
-    public ViewModelWeather(SchedulerProvider mSchedulerProvider, ServiceWeather mServiceWeather, Application mApplication) {
+    public ViewModelWeather(SchedulerProvider mSchedulerProvider, ServiceWeather mServiceWeather) {
         this.mSchedulerProvider = mSchedulerProvider;
         this.mServiceWeather = mServiceWeather;
-        this.mApplication = mApplication;
         mWeatherResponseData = new BaseLiveData<>();
     }
 

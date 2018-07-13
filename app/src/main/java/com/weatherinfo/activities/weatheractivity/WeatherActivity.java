@@ -103,16 +103,16 @@ public class WeatherActivity extends BaseActivity implements
                     mLLLoading.setVisibility(View.GONE);
                     mWeatherBinding.setResponse(response.getResponse());
                 }
-            }
-
-            @Override
-            public void onError(String errorMsg) {
-                Toast.makeText(WeatherActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                 if (mWeatherAdapter.getItemCount() == 0) {
                     mLLDataLayout.setVisibility(View.GONE);
                     mLLLoading.setVisibility(View.GONE);
                     mLLNoConnection.setVisibility(View.VISIBLE);
                 }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+                Toast.makeText(WeatherActivity.this, errorMsg, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -183,6 +183,7 @@ public class WeatherActivity extends BaseActivity implements
     public void onLocationChanged(Location location) {
         mGoogleApiClient.disconnect();
         mViewModelWeather.onObtainLocation(location);
+        //Toast.makeText(this, location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     @Override

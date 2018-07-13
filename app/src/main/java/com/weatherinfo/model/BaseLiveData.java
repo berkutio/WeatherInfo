@@ -1,56 +1,62 @@
 package com.weatherinfo.model;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.Transformations;
+import android.arch.lifecycle.MutableLiveData;
+
+import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.PublishSubject;
 
 public class BaseLiveData<ResponseType, LifeDataInstance extends LiveDataResponse<ResponseType>> {
 
-    private MediatorLiveData<LifeDataInstance> mResponseData;
-    private LiveData<String> mErrorMessageData;
+    private MutableLiveData<LifeDataInstance> mResponseData;
+    private PublishSubject<String> mSubject;
 
     public BaseLiveData() {
-        this.mResponseData = new MediatorLiveData<>();
-        mErrorMessageData = Transformations.switchMap(mResponseData, input -> {
-            MediatorLiveData<String> errorMsg = new MediatorLiveData<>();
-            if (input.getError() != null) {
-                errorMsg.postValue(input.getError());
-            }
-            return errorMsg;
-        });
+        this.mResponseData = new MutableLiveData<>();
+        mSubject = PublishSubject.create();
     }
 
-    public BaseLiveData(MediatorLiveData<LifeDataInstance> mResponseData, LiveData<String> mErrorMessageData) {
+    public BaseLiveData(MutableLiveData<LifeDataInstance> mResponseData) {
         this.mResponseData = mResponseData;
-        this.mErrorMessageData = mErrorMessageData;
+        mSubject = PublishSubject.create();
+    }
+
+    public BaseLiveData(PublishSubject<String> mSubject) {
+        this.mSubject = mSubject;
+        this.mResponseData = new MutableLiveData<>();
     }
 
     public void post(LifeDataInstance value) {
+        checkError(value);
         mResponseData.postValue(value);
     }
 
     public void setValue(LifeDataInstance value) {
+        checkError(value);
         mResponseData.setValue(value);
     }
 
-    public MediatorLiveData<LifeDataInstance> getResponseData() {
+    public MutableLiveData<LifeDataInstance> getResponseData() {
         return mResponseData;
-    }
-
-    public LiveData getErrorData() {
-        return mErrorMessageData;
     }
 
     public void observe(LifecycleOwner owner, OnEventListener listener) {
         mResponseData.observe(owner, listener::onResult);
-        mErrorMessageData.observe(owner, listener::onError);
+        Disposable subscribe = mSubject.subscribe(listener::onErrorMsg);
     }
+
+
+    private void checkError(LifeDataInstance value) {
+        if (value.getError() != null) {
+            mSubject.onNext(value.getError());
+        }
+    }
+
 
     public interface OnEventListener<ResponseType> {
         void onResult(LiveDataResponse<ResponseType> response);
 
-        void onError(String errorMsg);
+        void onErrorMsg(String errorMsg);
     }
 
 }
