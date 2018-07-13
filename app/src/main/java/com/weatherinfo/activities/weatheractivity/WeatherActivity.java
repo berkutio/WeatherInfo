@@ -34,7 +34,7 @@ import com.weatherinfo.adapters.WeatherAdapter;
 import com.weatherinfo.databinding.ActivityMvvmweatherBinding;
 import com.weatherinfo.location.ModuleGoogleApiClient;
 import com.weatherinfo.location.ModuleLocationPendingResult;
-import com.weatherinfo.model.BaseLiveData;
+import com.weatherinfo.model.baselivedata.BaseLiveData;
 import com.weatherinfo.model.LiveDataResponse;
 import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.utils.PermissionsUtils;
@@ -183,7 +183,6 @@ public class WeatherActivity extends BaseActivity implements
     public void onLocationChanged(Location location) {
         mGoogleApiClient.disconnect();
         mViewModelWeather.onObtainLocation(location);
-        //Toast.makeText(this, location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     @Override

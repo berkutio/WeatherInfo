@@ -3,7 +3,7 @@ package com.weatherinfo.activities.weatheractivity.viewmodel;
 import android.arch.lifecycle.ViewModel;
 import android.location.Location;
 
-import com.weatherinfo.model.BaseLiveData;
+import com.weatherinfo.model.baselivedata.BaseLiveData;
 import com.weatherinfo.model.LiveDataResponse;
 import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.network.ServiceWeather;

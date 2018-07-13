@@ -1,29 +1,34 @@
-package com.weatherinfo.model;
+package com.weatherinfo.model.baselivedata;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
 
-import io.reactivex.subjects.PublishSubject;
+import com.weatherinfo.model.LiveDataResponse;
 
 public class BaseLiveData<ResponseType, LifeDataInstance extends LiveDataResponse<ResponseType>> {
 
     private MutableLiveData<LifeDataInstance> mResponseData;
-    private PublishSubject<String> mSubject;
+    private ErrorMessageObservable mErrorMessageObservable;
 
     public BaseLiveData() {
         this.mResponseData = new MutableLiveData<>();
-        mSubject = PublishSubject.create();
+        mErrorMessageObservable = new ErrorMessageObservable();
     }
 
     public BaseLiveData(MutableLiveData<LifeDataInstance> mResponseData) {
         this.mResponseData = mResponseData;
-        mSubject = PublishSubject.create();
+        mErrorMessageObservable = new ErrorMessageObservable();
     }
 
-    public BaseLiveData(PublishSubject<String> mSubject) {
-        this.mSubject = mSubject;
+    public BaseLiveData(ErrorMessageObservable mErrorMessageObservable) {
+        this.mErrorMessageObservable = mErrorMessageObservable;
         this.mResponseData = new MutableLiveData<>();
+    }
+
+    public BaseLiveData(MutableLiveData<LifeDataInstance> mResponseData, ErrorMessageObservable mErrorMessageObservable) {
+        this.mResponseData = mResponseData;
+        this.mErrorMessageObservable = mErrorMessageObservable;
     }
 
     public void post(LifeDataInstance value) {
@@ -43,12 +48,12 @@ public class BaseLiveData<ResponseType, LifeDataInstance extends LiveDataRespons
     @SuppressLint("CheckResult")
     public void observe(LifecycleOwner owner, OnEventListener listener) {
         mResponseData.observe(owner, listener::onResult);
-        mSubject.subscribe(listener::onErrorMsg);
+        mErrorMessageObservable.addObserver((o, arg) -> listener.onErrorMsg((String) arg));
     }
 
     private void checkError(LifeDataInstance value) {
         if (value.getError() != null) {
-            mSubject.onNext(value.getError());
+            mErrorMessageObservable.updateObservable(value.getError());
         }
     }
 
