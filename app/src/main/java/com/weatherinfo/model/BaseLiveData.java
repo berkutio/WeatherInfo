@@ -1,9 +1,9 @@
 package com.weatherinfo.model;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
 
-import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
 public class BaseLiveData<ResponseType, LifeDataInstance extends LiveDataResponse<ResponseType>> {
@@ -40,11 +40,11 @@ public class BaseLiveData<ResponseType, LifeDataInstance extends LiveDataRespons
         return mResponseData;
     }
 
+    @SuppressLint("CheckResult")
     public void observe(LifecycleOwner owner, OnEventListener listener) {
         mResponseData.observe(owner, listener::onResult);
-        Disposable subscribe = mSubject.subscribe(listener::onErrorMsg);
+        mSubject.subscribe(listener::onErrorMsg);
     }
-
 
     private void checkError(LifeDataInstance value) {
         if (value.getError() != null) {
