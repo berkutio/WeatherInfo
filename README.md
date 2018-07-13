@@ -1,7 +1,13 @@
 # WeatherInfo
 Opensource application for obtaining weather forecast based on device GPS coordinates. Application architectures implements MVP approach.
+<p align="center">
+  <img src="https://github.com/berkutio/WeatherInfo/blob/master/device-2018-07-13-141500.png" width="350" height="650"/>
+</p>
 
 Brief description:
+<a href="https://github.com/berkutio/WeatherInfo/tree/jetpack_clean_architecture"># jetpack_clean_architecture barnch</a>
+
+Solution for generating one-time error messages while using live data and Google architecture components
 
 # master branch:
 
