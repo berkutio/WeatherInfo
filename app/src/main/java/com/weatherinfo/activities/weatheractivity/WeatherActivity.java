@@ -34,6 +34,7 @@ import com.weatherinfo.databinding.ActivityWeatherBinding;
 import com.weatherinfo.di.Dag2Components;
 import com.weatherinfo.model.DataBindingForecastData;
 import com.weatherinfo.model.ForecastData;
+import com.weatherinfo.model.PresenterResponse;
 import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.utils.PermissionsUtils;
 import com.weatherinfo.utils.rx.ApplicationProvider;
@@ -51,7 +52,7 @@ public class WeatherActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
-        ResultCallback<LocationSettingsResult>, IViewWeather {
+        ResultCallback<LocationSettingsResult>, WeatherView {
 
     private static final int REQUEST_CODE_LOCATION = 1;
     private static final int REQUEST_CODE_PERMISSIONS = 101;
@@ -151,17 +152,19 @@ public class WeatherActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onReceiveWeatherForecast(WeatherResponse response) {
-        if (response != null) {
-            mapDataForToday(response);
+    public void onReceiveWeatherForecast(PresenterResponse<WeatherResponse> response) {
+        if (response.getResponse() != null) {
+            WeatherResponse weatherResponse = response.getResponse();
 
-            ArrayList<ForecastData> list = new ArrayList<>(Arrays.asList(response.getList()));
+            mapDataForToday(weatherResponse);
+
+            ArrayList<ForecastData> list = new ArrayList<>(Arrays.asList(weatherResponse.getList()));
             list.remove(0);
 
             mapDataForLaterDays(list);
 
             dataLayout.setVisibility(View.VISIBLE);
-        } else {
+        } else if (response.getError() != null) {
             Toast.makeText(this, getString(R.string.error_weather_response), Toast.LENGTH_LONG).show();
         }
     }

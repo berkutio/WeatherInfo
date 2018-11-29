@@ -6,8 +6,7 @@ import android.location.Location;
  * Created by user on 23.04.17.
  */
 
-public interface IPresenterWeather {
-
+public interface WeatherPresenter {
 
     void onDestroy();
 

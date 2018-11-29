@@ -10,6 +10,10 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ApplicationProvider implements SchedulerProvider {
 
+    public static ApplicationProvider createProvider() {
+        return new ApplicationProvider();
+    }
+
     @Override
     public Scheduler mainThread() {
         return AndroidSchedulers.mainThread();

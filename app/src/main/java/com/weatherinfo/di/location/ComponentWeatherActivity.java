@@ -2,8 +2,6 @@ package com.weatherinfo.di.location;
 
 import com.weatherinfo.activities.weatheractivity.WeatherActivity;
 
-import javax.inject.Singleton;
-
 import dagger.Component;
 
 /**

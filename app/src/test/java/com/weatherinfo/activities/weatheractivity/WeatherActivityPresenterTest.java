@@ -2,6 +2,8 @@ package com.weatherinfo.activities.weatheractivity;
 
 import android.content.Context;
 import android.location.Location;
+
+import com.weatherinfo.model.PresenterResponse;
 import com.weatherinfo.model.WeatherResponse;
 import com.weatherinfo.rxutils.TestSchedulerProvider;
 
@@ -24,15 +26,15 @@ import static org.mockito.Mockito.when;
  * Created by user on 26.04.17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class PresenterActivityWeatherTest {
+public class WeatherActivityPresenterTest {
 
 
     @Mock
-    private IViewWeather viewWeather;
+    private WeatherView viewWeather;
 
     private Location location;
 
-    private PresenterActivityWeather presenter;
+    private WeatherActivityPresenter presenter;
 
     private TestScheduler mTestScheduler;
 
@@ -44,7 +46,7 @@ public class PresenterActivityWeatherTest {
         when(location.getLongitude()).thenReturn(31.9381652);
         mTestScheduler = new TestScheduler();
         TestSchedulerProvider testSchedulerProvider = new TestSchedulerProvider(mTestScheduler);
-        presenter = new PresenterActivityWeather(context, testSchedulerProvider, viewWeather);
+        presenter = new WeatherActivityPresenter(context, testSchedulerProvider, viewWeather);
     }
 
     @Test
@@ -58,7 +60,7 @@ public class PresenterActivityWeatherTest {
         presenter.onObtainLocation(location);
         mTestScheduler.triggerActions();
         Thread.sleep(1000);
-        verify(viewWeather, atLeast(1)).onReceiveWeatherForecast((WeatherResponse) any());
+        verify(viewWeather, atLeast(1)).onReceiveWeatherForecast((PresenterResponse<WeatherResponse>) any());
     }
 
 }
