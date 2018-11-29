@@ -38,14 +38,14 @@ public class NetworkModule {
     private static final int READ_TIME_OUT_MS = 30;
     private static final int STALE_MINUTES = 3;
 
-    private String baseUrl;
+    private final String baseUrl;
 
     public NetworkModule(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
     @Provides
-    @ScopeNetwork
+    @NetworkScope
     public Retrofit getRetrofitInstance(OkHttpClient client, Gson gson){
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -56,7 +56,7 @@ public class NetworkModule {
     }
 
     @Provides
-    @ScopeNetwork
+    @NetworkScope
     public OkHttpClient getOkHttpClient(Interceptor cacheInterceptor, Cache cache){
         return new OkHttpClient.Builder()
                 .addInterceptor(cacheInterceptor)
@@ -69,25 +69,22 @@ public class NetworkModule {
 
 
     @Provides
-    @ScopeNetwork
+    @NetworkScope
     public Interceptor getCacheInterceptor(){
-        return new Interceptor() {
-            @Override
-            public Response intercept (Chain chain) throws IOException {
-                Response response = chain.proceed(chain.request());
-                CacheControl cacheControl = new CacheControl.Builder()
-                        .maxAge(STALE_MINUTES, TimeUnit.MINUTES )
-                        .build();
-                return response.newBuilder()
-                        .header(CACHE_CONTROL, cacheControl.toString())
-                        .build();
-            }
+        return chain -> {
+            Response response = chain.proceed(chain.request());
+            CacheControl cacheControl = new CacheControl.Builder()
+                    .maxAge(STALE_MINUTES, TimeUnit.MINUTES )
+                    .build();
+            return response.newBuilder()
+                    .header(CACHE_CONTROL, cacheControl.toString())
+                    .build();
         };
     }
 
 
     @Provides
-    @ScopeNetwork
+    @NetworkScope
     public Gson getGson(){
         GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(Date.class, new DateAsLongAdapter());

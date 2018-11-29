@@ -29,7 +29,7 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.weatherinfo.App;
 import com.weatherinfo.R;
-import com.weatherinfo.adapters.WeatherAdapter;
+import com.weatherinfo.adapters.WeatherActivityAdapter;
 import com.weatherinfo.databinding.ActivityWeatherBinding;
 import com.weatherinfo.di.Dag2Components;
 import com.weatherinfo.model.DataBindingForecastData;
@@ -229,8 +229,8 @@ public class WeatherActivity extends AppCompatActivity implements
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        WeatherAdapter weatherAdapter = new WeatherAdapter(list);
-        recyclerView.setAdapter(weatherAdapter);
+        WeatherActivityAdapter weatherActivityAdapter = new WeatherActivityAdapter(list);
+        recyclerView.setAdapter(weatherActivityAdapter);
     }
 
 

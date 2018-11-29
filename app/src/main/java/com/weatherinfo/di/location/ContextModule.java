@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.weatherinfo.App;
 
-import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,7 +20,7 @@ public class ContextModule {
     }
 
     @Provides
-    @ScopeLocation
+    @LocationScope
     public Context getContext(){
         return context;
     }

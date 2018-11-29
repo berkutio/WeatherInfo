@@ -1,4 +1,4 @@
-package com.weatherinfo.di.location;
+package com.weatherinfo.di.network;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,5 +11,5 @@ import javax.inject.Scope;
 
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ScopeLocation {
+public @interface NetworkScope {
 }

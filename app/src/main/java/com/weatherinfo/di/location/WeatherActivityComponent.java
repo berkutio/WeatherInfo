@@ -7,9 +7,9 @@ import dagger.Component;
 /**
  * Created by user on 06.05.17.
  */
-@ScopeLocation
+@LocationScope
 @Component(modules = { LocationModule.class, GoogleApiClientModule.class, LocationPendingResultModule.class})
-public interface ComponentWeatherActivity {
+public interface WeatherActivityComponent {
 
     void injectWeatherActivity(WeatherActivity activity);
 

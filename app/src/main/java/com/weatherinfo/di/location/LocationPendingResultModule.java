@@ -16,14 +16,14 @@ import dagger.Provides;
 @Module(includes ={GoogleApiClientModule.class, LocationModule.class})
 public class LocationPendingResultModule {
 
-    ResultCallback<LocationSettingsResult> resultCallback;
+    private final ResultCallback<LocationSettingsResult> resultCallback;
 
     public LocationPendingResultModule(ResultCallback<LocationSettingsResult> resultCallback) {
         this.resultCallback = resultCallback;
     }
 
     @Provides
-    @ScopeLocation
+    @LocationScope
     public PendingResult<LocationSettingsResult> getPendingResult(GoogleApiClient googleApiClient, LocationSettingsRequest settingsRequest){
         PendingResult<LocationSettingsResult> result =
                 LocationServices.SettingsApi.checkLocationSettings(

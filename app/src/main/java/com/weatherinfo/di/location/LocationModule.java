@@ -4,27 +4,27 @@ package com.weatherinfo.di.location;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationSettingsRequest;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class LocationModule {
 
+    private static final int LOCATION_INTERVAL = 2000;
+    private static final int LOCATION_FASTEST_INTERVAL = 1000;
 
     @Provides
-    @ScopeLocation
+    @LocationScope
     public LocationRequest getLocationRequest(){
         LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(2000);
-        locationRequest.setFastestInterval(1000);
+        locationRequest.setInterval(LOCATION_INTERVAL);
+        locationRequest.setFastestInterval(LOCATION_FASTEST_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         return locationRequest;
     }
 
     @Provides
-    @ScopeLocation
+    @LocationScope
     public LocationSettingsRequest getLocationSettingsRequest(LocationRequest locationRequest){
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(locationRequest);
