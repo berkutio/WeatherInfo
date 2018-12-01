@@ -21,9 +21,9 @@ import static org.mockito.Mockito.when;
 /**
  * Created by user on 23.04.17.
  */
-public class WeatherServiceImplTest {
+public class WeatherApiImplTest {
 
-    private WeatherServiceImpl service;
+    private WeatherRepository service;
     private Location location;
 
     @Before
@@ -32,27 +32,27 @@ public class WeatherServiceImplTest {
         location = mock(Location.class);
         when(location.getLatitude()).thenReturn(46.9534361);
         when(location.getLongitude()).thenReturn(31.9381652);
-        service = new WeatherServiceImpl(context, Constants.WEATHER_URI, Constants.WEATHER_API_KEY);
+        service = new WeatherRepository(context, Constants.WEATHER_URI, Constants.WEATHER_API_KEY);
     }
 
     @Test
     public void testGetListData() throws IOException {
-        WeatherResponse response = service.getListData(location, 6).blockingGet();
+        WeatherResponse response = service.getForecast(location, 6).blockingGet();
         assertNotNull(response);
         System.out.println("Weather response + " + response);
         City city = response.getCity();
         assertNotNull(city);
-        ForecastData[] list = response.getList();
+        ForecastData[] list = response.getForecastData();
         assertNotNull(list);
         assertEquals(6, list.length);
         ForecastData forecastData = list[0];
         assertNotNull(forecastData);
-        WeatherDescription[] descriptions = forecastData.getWeather();
+        WeatherDescription[] descriptions = forecastData.getWeatherDescription();
         assertNotNull(descriptions);
         assertNotEquals(0, descriptions.length);
         assertNotNull(descriptions[0].getDescription());
-        assertNotEquals(0, forecastData.getDt());
-        assertNotEquals(0, forecastData.getDeg());
+        assertNotEquals(0, forecastData.getData());
+        assertNotEquals(0, forecastData.getDegree());
         assertNotEquals(0, forecastData.getHumidity());
         assertNotEquals(0, forecastData.getPressure());
     }

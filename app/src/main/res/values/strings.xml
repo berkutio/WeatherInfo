@@ -9,7 +9,7 @@
     <string name="nearest_days">Nearest days</string>
     <string name="downloading_info">Downloading information</string>
     <string name="error_weather_response">Error obtaining forecast data. Check internet connection and try gain!</string>
-    <string name="requires_phone_permission">In order to obtain weather forecast application ask permissions</string>
+    <string name="requires_phone_permission">In order to obtain weatherDescription forecast application ask permissions</string>
     <string name="settings">Settings</string>
     <string name="exit">Exit</string>
     <string name="weather_response_obtaining">Obtaining forecast. Please, wait!</string>

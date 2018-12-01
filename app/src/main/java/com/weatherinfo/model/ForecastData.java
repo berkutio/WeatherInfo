@@ -4,30 +4,30 @@ import java.util.Arrays;
 
 public class ForecastData {
 
-    private long dt;
-    private Temperature temp;
+    private long data;
+    private Temperature temperature;
     private double pressure;
     private long humidity;
-    private WeatherDescription weather[];
+    private WeatherDescription weatherDescription[];
     private double speed;
-    private long deg;
+    private long degree;
     private long clouds;
     private double rain;
 
-    public long getDt() {
-        return dt;
+    public long getData() {
+        return data;
     }
 
-    public void setDt(long dt) {
-        this.dt = dt;
+    public void setData(long data) {
+        this.data = data;
     }
 
-    public Temperature getTemp() {
-        return temp;
+    public Temperature getTemperature() {
+        return temperature;
     }
 
-    public void setTemp(Temperature temp) {
-        this.temp = temp;
+    public void setTemperature(Temperature temperature) {
+        this.temperature = temperature;
     }
 
     public double getPressure() {
@@ -46,12 +46,12 @@ public class ForecastData {
         this.humidity = humidity;
     }
 
-    public WeatherDescription[] getWeather() {
-        return weather;
+    public WeatherDescription[] getWeatherDescription() {
+        return weatherDescription;
     }
 
-    public void setWeather(WeatherDescription[] weather) {
-        this.weather = weather;
+    public void setWeatherDescription(WeatherDescription[] weatherDescription) {
+        this.weatherDescription = weatherDescription;
     }
 
     public double getSpeed() {
@@ -62,12 +62,12 @@ public class ForecastData {
         this.speed = speed;
     }
 
-    public long getDeg() {
-        return deg;
+    public long getDegree() {
+        return degree;
     }
 
-    public void setDeg(long deg) {
-        this.deg = deg;
+    public void setDegree(long degree) {
+        this.degree = degree;
     }
 
     public long getClouds() {
@@ -89,13 +89,13 @@ public class ForecastData {
     @Override
     public String toString() {
         return "ForecastData{" +
-                "dt=" + dt +
-                ", temp=" + temp +
+                "data=" + data +
+                ", temperature=" + temperature +
                 ", pressure=" + pressure +
                 ", humidity=" + humidity +
-                ", weather=" + Arrays.toString(weather) +
+                ", weatherDescription=" + Arrays.toString(weatherDescription) +
                 ", speed=" + speed +
-                ", deg=" + deg +
+                ", degree=" + degree +
                 ", clouds=" + clouds +
                 ", rain=" + rain +
                 '}';

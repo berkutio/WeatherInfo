@@ -1,5 +1,6 @@
 package com.weatherinfo.activities.weatheractivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -158,7 +159,7 @@ public class WeatherActivity extends AppCompatActivity implements
 
             mapDataForToday(weatherResponse);
 
-            ArrayList<ForecastData> list = new ArrayList<>(Arrays.asList(weatherResponse.getList()));
+            ArrayList<ForecastData> list = new ArrayList<>(Arrays.asList(weatherResponse.getForecastData()));
             list.remove(0);
 
             mapDataForLaterDays(list);
@@ -208,6 +209,7 @@ public class WeatherActivity extends AppCompatActivity implements
         googleApiClient.connect();
     }
 
+    @SuppressLint("MissingPermission")
     private void initiateLocationUpdates() {
         if (PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_COARSE_LOCATION)
                 && PermissionsUtils.isPermissionGranted(PermissionsUtils.Permissions.ACCESS_FINE_LOCATION)) {
@@ -219,7 +221,7 @@ public class WeatherActivity extends AppCompatActivity implements
 
     private void mapDataForToday(WeatherResponse response) {
         toolbar.setTitle(getString(R.string.app_name) + " in " + response.getCity().getName());
-        ForecastData forecastData = response.getList()[0];
+        ForecastData forecastData = response.getForecastData()[0];
         weatherBinding.setForecast(new DataBindingForecastData(forecastData));
     }
 

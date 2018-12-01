@@ -1,7 +1,7 @@
 package com.weatherinfo.di.network;
 
 
-import com.weatherinfo.network.WeatherServiceImpl;
+import com.weatherinfo.network.WeatherRepository;
 
 import dagger.Component;
 
@@ -12,6 +12,6 @@ import dagger.Component;
 @Component(modules = {NetworkModule.class, CacheModule.class})
 public interface NetworkComponent {
 
-    void injectService(WeatherServiceImpl service);
+    void injectService(WeatherRepository service);
 
 }

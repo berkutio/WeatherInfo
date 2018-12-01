@@ -1,7 +1,6 @@
 package com.weatherinfo.model;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by user on 23.04.17.
@@ -13,7 +12,7 @@ public class WeatherResponse {
     private String cod;
     private double message;
     private long cnt;
-    private ForecastData[] list;
+    private ForecastData[] forecastData;
 
     public City getCity() {
         return city;
@@ -47,12 +46,12 @@ public class WeatherResponse {
         this.cnt = cnt;
     }
 
-    public ForecastData[] getList() {
-        return list;
+    public ForecastData[] getForecastData() {
+        return forecastData;
     }
 
-    public void setList(ForecastData[] list) {
-        this.list = list;
+    public void setForecastData(ForecastData[] forecastData) {
+        this.forecastData = forecastData;
     }
 
     @Override
@@ -62,7 +61,7 @@ public class WeatherResponse {
                 ", cod='" + cod + '\'' +
                 ", message=" + message +
                 ", cnt=" + cnt +
-                ", list=" + Arrays.toString(list) +
+                ", forecastData=" + Arrays.toString(forecastData) +
                 '}';
     }
 }

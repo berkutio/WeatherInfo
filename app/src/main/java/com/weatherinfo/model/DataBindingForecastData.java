@@ -2,18 +2,18 @@ package com.weatherinfo.model;
 
 public class DataBindingForecastData {
 
-    private ForecastData forecastData;
+    private final ForecastData forecastData;
 
     public DataBindingForecastData(ForecastData forecastData) {
         this.forecastData = forecastData;
     }
 
-    public long getDt() {
-        return forecastData.getDt();
+    public long getData() {
+        return forecastData.getData();
     }
 
-    public Temperature getTemp() {
-        return forecastData.getTemp();
+    public Temperature getTemperature() {
+        return forecastData.getTemperature();
     }
 
     public double getPressure() {
@@ -25,8 +25,8 @@ public class DataBindingForecastData {
     }
 
     public String getWeatherDescription() {
-        if(forecastData.getWeather() != null && forecastData.getWeather().length > 0){
-            return forecastData.getWeather()[0].getDescription();
+        if(forecastData.getWeatherDescription() != null && forecastData.getWeatherDescription().length > 0){
+            return forecastData.getWeatherDescription()[0].getDescription();
         } else {
             return "";
         }
@@ -37,7 +37,7 @@ public class DataBindingForecastData {
     }
 
     public long getDeg() {
-        return forecastData.getDeg();
+        return forecastData.getDegree();
     }
 
     public long getClouds() {

@@ -47,7 +47,7 @@
                     android:marqueeRepeatLimit="marquee_forever"
                     android:maxLength="25"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@{Universal.formatData(forecast.dt)}"
+                    android:text="@{Universal.formatData(forecast.data)}"
                     tools:text="02/15/2016" />
 
                 <View
@@ -112,7 +112,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="16dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@{Universal.convertToCelicies(forecast.temp.max)}"
+                        android:text="@{Universal.convertToCelcies(forecast.temperature.max)}"
                         tools:text="+23" />
 
                     <View

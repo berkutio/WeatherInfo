@@ -2,7 +2,6 @@ package com.weatherinfo.utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -19,60 +18,66 @@ import com.weatherinfo.R;
 
 public class PermissionsUtils {
 
+    private static final String SETTINGS_URI = "package:";
 
     public static boolean isPermissionGranted(Permissions permission) {
-        int permissionCheck = ActivityCompat.checkSelfPermission(App.getAppContext(), permission.getDesc());
+        int permissionCheck = ActivityCompat.checkSelfPermission(App.getAppContext(), permission.getTitle());
         return permissionCheck == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static void requestPermission(Activity context, Permissions[] permissionses, int requestCode){
+    public static void requestPermission(Activity context, Permissions[] permissions, int requestCode) {
         ActivityCompat.requestPermissions(context,
-                convertPermissionsToString(permissionses), requestCode);
+                convertPermissionsToStringArray(permissions), requestCode);
     }
 
-    private static String[] convertPermissionsToString(Permissions[] permissionses){
-        String[] permissions = new String[permissionses.length];
-        for (int i = 0; i < permissions.length; i++) {
-            permissions[i] = permissionses[i].getDesc();
+    private static String[] convertPermissionsToStringArray(Permissions[] permissions) {
+        String[] stringPermissions = new String[permissions.length];
+        for (int i = 0; i < stringPermissions.length; i++) {
+            stringPermissions[i] = permissions[i].getTitle();
         }
-        return permissions;
+
+        return stringPermissions;
     }
 
-    public static void showPermissionDialogForResult(final Activity context, String permissionsDescription, final int requestCode) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(context.getString(R.string.app_name));
-        builder.setMessage(context.getString(R.string.app_name) + " " + permissionsDescription);
-
-        String positiveText = context.getString(R.string.settings);
-        builder.setPositiveButton(positiveText, (dialog, which) -> openSettings(context, requestCode));
-
-        String negativeText = context.getString(R.string.exit);
-        builder.setNegativeButton(negativeText, (dialog, which) -> context.finish());
-
-        AlertDialog dialog = builder.create();
-        // display dialog
+    public static void showPermissionDialogForResult(final Activity activity, String permissionsDescription, final int requestCode) {
+        AlertDialog dialog = createPermissionDialog(activity, permissionsDescription, requestCode);
         dialog.show();
     }
 
-    private static void openSettings(Activity context, int requestCode){
-        Intent intent = new Intent();
-        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.parse("package:" + context.getPackageName()));
-        context.startActivityForResult(intent, requestCode);
+    private static AlertDialog createPermissionDialog(final Activity activity, String permissionsDescription, final int requestCode) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(activity.getString(R.string.app_name));
+        builder.setMessage(activity.getString(R.string.app_name) + " " + permissionsDescription);
+
+        String positiveText = activity.getString(R.string.settings);
+        builder.setPositiveButton(positiveText, (dialog, which) -> openSettingsActivity(activity, requestCode));
+
+        String negativeText = activity.getString(R.string.exit);
+        builder.setNegativeButton(negativeText, (dialog, which) -> activity.finish());
+
+        return builder.create();
     }
 
-    public enum Permissions{
+    private static void openSettingsActivity(Activity activity, int requestCode) {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse(SETTINGS_URI + activity.getPackageName()));
+
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public enum Permissions {
         ACCESS_COARSE_LOCATION(Manifest.permission.ACCESS_COARSE_LOCATION),
         ACCESS_FINE_LOCATION(Manifest.permission.ACCESS_FINE_LOCATION);
 
-        private String desc;
+        private String title;
 
-        Permissions(String desc) {
-            this.desc = desc;
+        Permissions(String title) {
+            this.title = title;
         }
 
-        public String getDesc() {
-            return desc;
+        public String getTitle() {
+            return title;
         }
     }
 

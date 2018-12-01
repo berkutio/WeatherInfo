@@ -6,7 +6,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.weatherinfo.model.PresenterResponse;
 import com.weatherinfo.model.WeatherResponse;
-import com.weatherinfo.network.WeatherServiceImpl;
+import com.weatherinfo.network.WeatherRepository;
 import com.weatherinfo.utils.Constants;
 import com.weatherinfo.utils.rx.SchedulerProvider;
 
@@ -45,9 +45,9 @@ public class WeatherActivityPresenter implements WeatherPresenter {
 
     @Override
     public void onObtainLocation(Location location) {
-        WeatherServiceImpl service = new WeatherServiceImpl(context, Constants.WEATHER_URI, Constants.WEATHER_API_KEY);
+        WeatherRepository service = new WeatherRepository(context, Constants.WEATHER_URI, Constants.WEATHER_API_KEY);
 
-        disposableSingleObserver = service.getListData(location, DAYS_QUANTITY)
+        disposableSingleObserver = service.getForecast(location, DAYS_QUANTITY)
                 .subscribeOn(provider.io())
                 .observeOn(provider.mainThread())
                 .subscribeWith(new DisposableSingleObserver<WeatherResponse>() {

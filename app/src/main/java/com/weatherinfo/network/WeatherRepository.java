@@ -8,7 +8,6 @@ import com.weatherinfo.model.WeatherResponse;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import retrofit2.Retrofit;
 
@@ -16,20 +15,20 @@ import retrofit2.Retrofit;
  * Created by user on 23.04.17.
  */
 
-public class WeatherServiceImpl {
+public class WeatherRepository {
 
     private String APIkey;
 
     @Inject
     Retrofit retrofit;
 
-    public WeatherServiceImpl(Context context, String baseUrl, String APIkey) {
+    public WeatherRepository(Context context, String baseUrl, String APIkey) {
         this.APIkey = APIkey;
         Dag2Components.getComponentNetwork(context, baseUrl).injectService(this);
     }
 
-    public Single<WeatherResponse> getListData(Location location, int days){
-        WeatherService service = retrofit.create(WeatherService.class);
+    public Single<WeatherResponse> getForecast(Location location, int days){
+        WeatherApi service = retrofit.create(WeatherApi.class);
         return service.getForecast(location.getLatitude(), location.getLongitude(), days, APIkey);
     }
 
